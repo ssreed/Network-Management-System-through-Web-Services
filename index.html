@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>MIB-Browser</title>
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
+    <link href='http://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
+    <script type='text/javascript' src="js/core.js"></script>
+</head>
+<body> 
+    <div class="page">
+        <div class="header">
+            <h1 class="title">MIB Browsr</h1>
+        </div>
+        <div id="input">
+             <form id="input_form">
+                <label id="hostlabel">Host</label>
+                <input type="text" name="host" id="host" placeholder="Host IP goes here" autofocus required> 
+                <label id="portlabel">Port</label>
+                <input type="text" name="port" id="port" placeholder="Port number"> 
+                <label id="communitylabel">Community</label>
+                <input type="password" name="community" id="community" placeholder="Community">
+                <label id="oidlabel">OID</label>
+                <input type="text" name="oid" id="oid" placeholder="Object ID number"> 
+                <label id="commandlabel">Commands</label>
+                <select name="commands">
+                    <option>Command 1</option>
+                    <option>Command 2</option>
+                    <option>Command 3</option>
+                    <option>Command 4</option>
+                    <option>Command 5</option>
+                </select>
+                <input type="submit" value="Submit" name="submit" />
+            </form>
+            <p id="result"></p>
+        </div>
+        <div class="tree">
+            <ul id="iso">
+                <li id="parent">
+                    <a href='#'>iso(1)</a>
+                    <ul id="org">
+                        <li id="child">
+                            <a href='#'>org(3)</a>
+                            <ul id="dod">
+                                <li id="grand child">
+                                    <a href="#">dod(6)</a>
+                                    <ul id="internet">
+                                        <li id="grand grand child">
+                                            <a href="#">internet(1)</a>
+                                            <ul id="mgmt">
+                                                <li id="grand grand grand child">
+                                                    <a href="#">mgmt(2)</a>
+                                                    <ul id="mib">
+                                                        <li id="grand grand grand grand child">
+                                                            <a href="#">mib(2)</a>
+                                                            <ul id="system">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">system(1)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="interfaces">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">interfaces(2)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="at">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">at(3)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="ip">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">ip(4)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="icmp">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">icmp(5)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="tcp">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">tcp(6)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="udp">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">udp(7)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="egp">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">egp(8)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="transmission">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">transmission(10)</a>
+                                                                </li>
+                                                            </ul>
+                                                            <ul id="snmp">
+                                                                <li id="grand grand grand grand grand child">
+                                                                    <a href="#">snmp(11)</a>
+                                                                </li>
+                                                            </ul>
+                                                        </li>
+                                                    </ul>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+
+        <div class="info">
+        </div>
+
+    </div>
+</body> 
+</html>
