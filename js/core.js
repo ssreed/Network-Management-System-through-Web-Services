@@ -3,7 +3,7 @@ $('li').click(function(){this.element.find('ul').first().toggle()}) //work in pr
 */
 
 $(document).ready(function(){ 
-
+    
     $('#iso').click(function () {
         //$('#org').toggle(250);
         document.getElementById('oid').value = "1";
@@ -26,9 +26,10 @@ $(document).ready(function(){
     $('#org').click(function(){
         $('.info').append("hello");
     });*/
-
+    
+    /* create URL */
     $('#input_form').submit(function() {
-      var querystring = $(this).serialize();
+      var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
       var result = $('#result').html(querystring);
       return false;
     });
