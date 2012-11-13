@@ -49,16 +49,22 @@ public class SNMPOperation {
         return "SNMPWALK URI: " + lURI +"}";
     }
 
-    @Path("/connect")
+    /**
+     * GET method to perform snmpget
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource.
+     */
+    @Path("/set")
     @GET
-    @Produces("text/json")
-    public String connect(@QueryParam("host") String pHost, 
-    		@QueryParam("community") String pCommunity)
+    @Produces("application/javascript")
+    public JSONWithPadding snmpget(@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("oid") String pOID,
+    		@QueryParam("value") String pValue,
+    		@QueryParam("callback") String pCallback) 
     {
-
-        StringBuilder lMessage = new StringBuilder();
-        lMessage.append("[{");
-        
+        NetworkStatus lStatus = new NetworkStatus();
         
         try
         {
@@ -70,25 +76,128 @@ public class SNMPOperation {
         	
         	SNMPv1CommunicationInterface lInterface = new SNMPv1CommunicationInterface(lVersion, lHostAddress, pCommunity);
         	
-        	lInterface.closeConnection();
+        	String lSNMPNULL = "class snmp.SNMNULL";
+        	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
         	
-        	lMessage.append("{Status: Success}");
+        	SNMPVarBindList lSNMPVar = lInterface.getNextMIBEntry(pOID);
+        	SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
+        	SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
+        	SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
+        	String lSNMPValueType = lSNMPValue.getClass().toString();
+        			
+        	if(!lSNMPValueType.equals(lSNMPNULL))
+        	{
+        		lSNMPValue.setValue(pValue);
+        		lSNMPVar = lInterface.setMIBEntry(pOID, lSNMPValue);
+            	lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
+            	lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
+            	lSNMPValue = lPair.getSNMPObjectAt(1);
+            	lSNMPValueType = lSNMPValue.getClass().toString();
+            	
+            	if(lSNMPValueType.equals(lSNMPOCETSTRING))
+        		{
+        			String lSNMPValueString = lSNMPValue.toString();
+        			int lNULLIndex = lSNMPValueString.indexOf('\0');
+        			if(lNULLIndex >= 0)
+        			{
+        				lSNMPValueString = lSNMPValueString.substring(0, lNULLIndex);
+        			}  // if
+        			lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValueString + " (hex: " +((SNMPOctetString)lSNMPValue).toHexString() + ")");      				
+        		}  // else
+            	else
+            	{
+            		lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValue);
+            	}  // else
+        	}  // if
+        	else
+        	{
+        		lStatus.setMessage("ERROR", "Cannot set the variable since it cannot be retrieved");
+        	}  // else
+        	
+        lInterface.closeConnection();
         }  // try
         catch(UnknownHostException pException)
         {
-        	lMessage.append("{ERROR: Invalid Address}");
+        	lStatus.setMessage("Error", "Invalid Address");
         }  // catch
         catch(Exception pException)
         {
-        	lMessage.append("{ERROR: Error in generating data" +
-        			pException.toString() +
-        			"}");
-        }  // catch 
+        	lStatus.setMessage("ERROR", pException.toString());
+        }  // catch
         
-        lMessage.append("}]");
+        System.out.println(lStatus.toString());
         
-        return lMessage.toString();
-    }  // 
+        return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // JSONWithPadding snmpget
+    
+    /**
+     * GET method to perform snmpget
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource.
+     */
+    @Path("/get")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding snmpget(@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("oid") String pOID,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+        
+        try
+        {
+        	// Create a communication
+        	InetAddress lHostAddress = 
+        			InetAddress.getByName(pHost);
+        	
+        	int lVersion = 0;
+        	
+        	SNMPv1CommunicationInterface lInterface = new SNMPv1CommunicationInterface(lVersion, lHostAddress, pCommunity);
+        	
+        	String lSNMPNULL = "class snmp.SNMNULL";
+        	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
+
+        	SNMPVarBindList lSNMPVar = lInterface.getNextMIBEntry(pOID);
+        	SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
+        	SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
+        	SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
+        	String lSNMPValueType = lSNMPValue.getClass().toString();
+        			
+        	if(!lSNMPValueType.equals(lSNMPNULL))
+        	{
+        		if(lSNMPValueType.equals(lSNMPOCETSTRING))
+        		{
+        			String lSNMPValueString = lSNMPValue.toString();
+        			int lNULLIndex = lSNMPValueString.indexOf('\0');
+        			if(lNULLIndex >= 0)
+        			{
+        				lSNMPValueString = lSNMPValueString.substring(0, lNULLIndex);
+        			}  // if
+        			lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValueString + " (hex: " +((SNMPOctetString)lSNMPValue).toHexString() + ")");      				
+        		}  // else
+        		else
+        		{
+        			lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValue);
+        		}  // else
+        	}  // if
+        	
+        lInterface.closeConnection();
+        }  // try
+        catch(UnknownHostException pException)
+        {
+        	lStatus.setMessage("Error", "Invalid Address");
+        }  // catch
+        catch(Exception pException)
+        {
+        	lStatus.setMessage("ERROR", "Error in generating data" + pException.toString());
+        }  // catch
+        
+        System.out.println(lStatus.toString());
+        
+        return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // JSONWithPadding snmpget
     
     /**
      * GET method to perform snmpwalk
@@ -115,30 +224,61 @@ public class SNMPOperation {
         	int lVersion = 0;
         	
         	SNMPv1CommunicationInterface lInterface = new SNMPv1CommunicationInterface(lVersion, lHostAddress, pCommunity);
-        	SNMPVarBindList lVar = lInterface.getMIBEntry(pOID);
-        	SNMPSequence lPair = (SNMPSequence)(lVar.getSNMPObjectAt(0));
+        	String lRetrievedOID = pOID;
         	
-        	SNMPObjectIdentifier lOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
-        	String lValue = lPair.getSNMPObjectAt(1).toString();
-        	
-        	lStatus.setNode(lOID.toString(), lValue);
+        	String lSNMPNULL = "class snmp.SNMNULL";
+        	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
+        	do
+        	{
+        		try
+        		{
+        			SNMPVarBindList lSNMPVar = lInterface.getNextMIBEntry(lRetrievedOID);
+        			SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
+        			SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
+        			SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
+        			lRetrievedOID = lSNMPOID.toString();
+        			String lSNMPValueType = lSNMPValue.getClass().toString();
+        			
+        			if(lSNMPValueType.equals(lSNMPNULL))
+        			{
+        				break;
+        			}  // if
+        			else if(lSNMPValueType.equals(lSNMPOCETSTRING))
+        			{
+        				String lSNMPValueString = lSNMPValue.toString();
+        				int lNULLIndex = lSNMPValueString.indexOf('\0');
+        				if(lNULLIndex >= 0)
+        				{
+        					lSNMPValueString = lSNMPValueString.substring(0, lNULLIndex);
+        				}  // if
+        				lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValueString + " (hex: " +((SNMPOctetString)lSNMPValue).toHexString() + ")");      				
+        			}  // else
+        			else
+        			{
+        				lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValue);
+        			}  // else
+        		}  // try
+        		catch(Exception pException)
+        		{
+        			lStatus.setMessage("ERROR", pException.toString());
+        			break;
+        		}  // catch
+        	}while(true);
         	
         	lInterface.closeConnection();
         }  // try
         catch(UnknownHostException pException)
         {
-        	lStatus.setNode("ERROR", "Invalid Address");
-        }  // catch
-        catch(SNMPBadValueException pException)
-        {
-        	lStatus.setNode("ERROR", "Fail to communicate with the device. (Incorrect community?)");
+        	lStatus.setMessage("Error", "Invalid Address");
         }  // catch
         catch(Exception pException)
         {
-        	lStatus.setNode("ERROR", "Error in generating data");
+        	lStatus.setMessage("ERROR", "Error in generating data" + pException.toString());
         }  // catch
         
+        System.out.println(lStatus.toString());
+        
         return new JSONWithPadding(lStatus.toString(), pCallback);
-        }
+        }  // JSONWithPadding snmpWalk
 
 }
