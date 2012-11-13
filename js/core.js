@@ -3,6 +3,15 @@ $('li').click(function(){this.element.find('ul').first().toggle()}) //work in pr
 */
 
 $(document).ready(function(){ 
+	$('ul#iso ').find('ul').hide();
+	
+	
+	$('ul').click(function (e) {
+		e.preventDefault();
+		e.stopPropagation();
+		$(this).children('li').children('ul').toggle();
+		console.log(this);
+	});
     
     $('#iso').click(function () {
         //$('#org').toggle(250);
