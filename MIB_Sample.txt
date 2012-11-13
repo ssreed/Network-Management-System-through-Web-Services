@@ -1,0 +1,7 @@
+// First Format
+[{"name": "iso", "value":"1", "parent":""},
+{"name": "org", "value":"3", "parent":"iso", "oid": "1.3"}]
+{"name": "dod", "value":"6", "oid": "1.3.6", "parent":"org"}
+// Second Format
+[{"name": "iso", "value":"1", "oid":"1", "child":{"name": "org", "value":"3", "oid": "1.3", child:{{"name": "org", "value":"6", "oid": "1.3.6", "child":""}}}}]
+
