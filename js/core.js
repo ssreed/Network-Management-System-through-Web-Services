@@ -40,20 +40,16 @@ $(document).ready(function(){
         }
 
     /*hide tree*/   
-    $('#iso(1)').find('ul').hide(); 
-    
-    
-    $('.node').bind('click',function(e){
-        var id = $(this).find('a').attr('id');
-        $('#oid').attr({value:id});
-    });
+    $('#iso\\(1\\)').find('ul').hide();
 
     /*toggle tree nodes*/
-	$('ul').click(function (e) {
+	$('.node').find('a').click(function (e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$(this).children('li').children('ul').toggle();  
-	});
+        var id = $(this).attr('id');
+        $('#oid').attr({value:id});
+	   $(this).parent('li').children('ul').toggle();
+    }); 
 
     /* create URL */
     $('#input_form').submit(function() {
