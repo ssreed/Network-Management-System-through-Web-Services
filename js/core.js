@@ -14,40 +14,45 @@ $(document).ready(function(){
         {'name' : 'system(1)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.1'},
         {'name' : 'interface(2)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.2'}];
         
-        for(var i = 0; i < jsonArray.length; i++) {
-            
+        for(var i = 0; i < jsonArray.length; i++) 
+        {
             if(i == 0)
             {
-                var contentss = '<li>';
-                contentss += '<a>';
-                contentss += jsonArray[i].name; 
-                contentss += '</a>';
-                contentss += '</li>';  
-                $("#iso\\(1\\)").append(contentss); 
+                var nodes = '<li>';
+                nodes += "<a id=" + jsonArray[i].oid + ">";
+                nodes += jsonArray[i].name; 
+                nodes += '</a>';
+                nodes += '</li>';  
+                $("#iso\\(1\\)").append(nodes); 
             }
             else 
             {
-                contentss = "<ul id=" + jsonArray[i].name + ">";
-                contentss += '<li>';
-                contentss += '<a>';
-                contentss += jsonArray[i].name; 
-                contentss += '</a>';
-                contentss += '</li>';
-                contentss += '</ul>'; 
+                nodes = "<ul class='node' id=" + jsonArray[i].name + ">";
+                nodes += '<li>';
+                nodes += "<a id=" + jsonArray[i].oid + ">";
+                nodes += jsonArray[i].name; 
+                nodes += '</a>';
+                nodes += '</li>';
+                nodes += '</ul>'; 
                 var hashVar = "#" + jsonArray[i].parent; 
-                $(hashVar).children('li').append(contentss);
+                $(hashVar).children('li').append(nodes);
             }
-    }
+        }
+
     /*hide tree*/   
-    $('#iso(1)').find('ul').hide();
-	
+    $('#iso(1)').find('ul').hide(); 
+    
+    
+    $('.node').bind('click',function(e){
+        var id = $(this).find('a').attr('id');
+        $('#oid').attr({value:id});
+    });
+
     /*toggle tree nodes*/
 	$('ul').click(function (e) {
 		e.preventDefault();
 		e.stopPropagation();
-		$(this).children('li').children('ul').toggle();
-		//console.log(this);
-        document.getElementById('iso\\(1\\)').value = "2";
+		$(this).children('li').children('ul').toggle();  
 	});
 
     /* create URL */

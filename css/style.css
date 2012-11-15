@@ -1,7 +1,7 @@
-/*.tree, .info {
+/** {
     border: 0.1em solid white;
-}
-*/
+}*/
+
 body {
     font-family: 'Fenix', serif;
     color: #F00;
@@ -20,6 +20,7 @@ body {
 a {
     color: #4FB69F;
     text-decoration: none;
+    cursor: pointer; 
 }
 
 h1 {
@@ -28,7 +29,6 @@ h1 {
 }
 
 .tree {
-    cursor: pointer; 
     float: left;
     width: 50%;
 }
@@ -44,25 +44,6 @@ h1 {
     padding: 10px 5px 0 5px;
 }
 
-/* connectors */
-/*
-.tree li::before {
-    content: "";
-    position: absolute;
-    border-top: 1px solid #ccc;
-    width: 50%; height: 20px;
-}
-
-.tree li::after {
-    right:auto; 
-    left: 50%;
-    border-left: 1px solid #ccc;
-}
-
-.tree li:only-child::after, .tree li:only-child::before {
-    display: none;
-} 
-*/
 
 .tree li a {
     border: 1px solid #ccc;
