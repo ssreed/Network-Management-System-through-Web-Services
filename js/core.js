@@ -62,4 +62,64 @@ $(document).ready(function(){
       return false;
     });
 
+    /*Daniel's functions*/
+    parseResponse = function (data) {
+        $(".info").empty();
+        $.each(data, function (pIndex, pElement) {
+            var lName = { text: pElement.name };
+            if (lName.text == "OID Name") {
+                var lValue = { text: pElement.value };
+
+                var lLI = document.createElement("li");
+                $(".info").append(lLI);
+                $(lLI).append($("<p>", lValue));
+            }  // if
+            else
+            { 
+                var lValue = { text: pElement.value };
+                var lLI = document.createElement("li");
+                $(".info").append(lLI);
+                $(lLI).append($("<p>", lName));
+                $(lLI).append($("<p>", lValue));
+            }  // else
+        });
+    };  // parseResponse
+
+    function performSNMP() {
+
+        var community = document.getElementById("community").value;
+        var host = document.getElementById("host").value;
+        var oid = document.getElementById("oid").value;
+        var commands = document.getElementById("commands").value;
+        var lURL;
+        var lServerHost = document.getElementById("txtServerHost").value;
+        if (commands == "set") {
+            var value = prompt("Please enter the new value for the entry", "");
+            if (value !== null && value !== "") {
+                lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + commands + "?host=" + host + "&community=" + community + "&oid=" + oid + "&value=" + value;
+            }  // if
+            else if (value === "") {
+                alert("The operation is canceled due to an invalid input. The input cannot be empty.");
+                return;
+            }  // else
+            else {
+                alert("The operation is canceled by the user");
+                return;
+            }  // else
+        }   // if
+        else {
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + commands + "?host=" + host + "&community=" + community + "&oid=" + oid;
+        }  // else
+        $.ajax({
+            cache: true,
+            url: "http://24.7.122.241:8080/CS158B_WEBSERVICES/rest/snmpoperation/host=130.65.111.60&community=public&oid=1.3.6.1.2.1.1.3.0&commands=get",
+            data: {},
+            datatype: "GET",
+            contentType: "application/javascript",
+            dataType: "jsonp",
+            success: parseResponse,
+            error: ajaxCallFailed
+        });  // ajax
+    }  // function performSNMP
+
 });

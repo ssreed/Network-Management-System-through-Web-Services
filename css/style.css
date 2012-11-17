@@ -11,6 +11,7 @@ body {
 .page {
     width: 1000px;
     margin: 0 auto;
+    /*border: 0.1em solid green;*/
 }
 
 a {
@@ -24,16 +25,16 @@ h1 {
     letter-spacing: -1.5px;
 }
 
-.tree {
-    float: left;
+.info, .tree {
     width: 50%;
+    height: 100%;
+    /*border: 0.1em solid blue;*/
 }
 
 .info {
-    width: 50%;
-    margin-left: 500px;
-    /*border: 0.1em solid white;*/
+    float: left;
 }
+
 
 
 .tree li {

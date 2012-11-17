@@ -14,6 +14,8 @@
         </div>
         <div id="input">
              <form id="input_form">
+                <p>Server Host: </p>
+                <input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
                 <label id="hostlabel">Host</label>
                 <input type="text" name="host" id="host" placeholder="Host IP goes here" autofocus required> 
                 <!--<label id="portlabel">Port</label>
@@ -34,6 +36,7 @@
                 <input type="submit" value="Submit" name="submit" />
             </form>
             <p id="result"></p>
+            <button onClick = "performSNMP()" id = "send_button">Perform</button>
             <input type="submit" value="Show all" name="showAll" id="showAll"/>
         </div>
         <div class="tree">
@@ -42,9 +45,6 @@
         </div>
         <div class="info">
         </div>
-
-        
-
     </div>
 </body> 
 </html>
