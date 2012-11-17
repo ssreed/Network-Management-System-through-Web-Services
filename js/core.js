@@ -1,7 +1,3 @@
-/*
-$('li').click(function(){this.element.find('ul').first().toggle()}) //work in progress for hiding
-*/
-
 $(document).ready(function(){ 
 	/*dummy data*/
     var jsonArray = [
@@ -18,9 +14,10 @@ $(document).ready(function(){
     /*generate tree*/
     for(var i = 0; i < jsonArray.length; i++) 
     {
-        if(i == 0)
+        var nodes = "";
+        if(i === 0)
         {
-            var nodes = '<li>';
+            nodes = '<li>';
             nodes += "<a id=" + jsonArray[i].oid + ">";
             nodes += jsonArray[i].name; 
             nodes += '</a>';
@@ -46,11 +43,11 @@ $(document).ready(function(){
 
     /*toggle tree nodes*/
 	$('.node').find('a').click(function (e) {
-		e.preventDefault();
-		e.stopPropagation();
+        e.preventDefault();
+        e.stopPropagation();
         var id = $(this).attr('id');
         $('#oid').attr({value:id});
-	   $(this).parent('li').children('ul').toggle();
+        $(this).parent('li').children('ul').toggle();
     }); 
 
     /*show all*/
