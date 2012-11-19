@@ -1,27 +1,16 @@
 package rest;
 
-import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
-import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.Context;
-import javax.ws.rs.core.GenericEntity;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriInfo;
-
-import org.codehaus.jackson.map.util.JSONPObject;
 
 import com.sun.jersey.api.json.JSONWithPadding;
 
 import snmp.*;
 
-
-import java.util.*;
-import java.math.*;
 import java.net.*;
 
 @Path("/snmpoperation")
@@ -128,7 +117,7 @@ public class SNMPOperation {
         System.out.println(lStatus.toString());
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
-    }  // JSONWithPadding snmpget
+    }  // JSONWithPadding snmpset
     
     /**
      * GET method to perform snmpget

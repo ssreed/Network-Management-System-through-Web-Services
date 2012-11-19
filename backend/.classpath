@@ -13,9 +13,25 @@
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.web.container"/>
 	<classpathentry kind="con" path="org.eclipse.jst.j2ee.internal.module.container"/>
-	<classpathentry kind="lib" path="C:/glassfish3/glassfish/domains/domain1/lib/ext/SNMP.jar"/>
-	<classpathentry kind="lib" path="C:/glassfish3/glassfish/domains/domain1/lib/ext/jackson-core-asl-1.9.8.jar"/>
-	<classpathentry kind="lib" path="C:/glassfish3/glassfish/domains/domain1/lib/ext/jackson-mapper-asl-1.9.8.jar"/>
-	<classpathentry kind="lib" path="C:/glassfish3/glassfish/domains/domain1/lib/ext/jersey-json-1.8.jar"/>
+	<classpathentry exported="true" kind="lib" path="C:/glassfish3/glassfish/domains/GlassfishDomain/lib/ext/jackson-core-asl-1.9.8.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/glassfish3/glassfish/domains/GlassfishDomain/lib/ext/jackson-mapper-asl-1.9.8.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/glassfish3/glassfish/domains/GlassfishDomain/lib/ext/jersey-json-1.8.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry exported="true" kind="lib" path="C:/glassfish3/glassfish/domains/GlassfishDomain/lib/ext/SNMP.jar">
+		<attributes>
+			<attribute name="org.eclipse.jst.component.dependency" value="/WEB-INF/lib"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
