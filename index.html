@@ -25,7 +25,7 @@
                 <label id="oidlabel">OID</label>
                 <input type="text" name="oid" id="oid" placeholder="Object ID number"> 
                 <label id="commandlabel">Commands</label>
-                <select name="commands">
+                <select name="commands" id = "commands">
                     <option>Status</option>
                     <option>Netstat</option>
                     <option>Test</option>
@@ -36,7 +36,7 @@
                 <input type="submit" value="Submit" name="submit" />
             </form>
             <p id="result"></p>
-            <button onClick = "performSNMP()" id = "send_button">Perform</button>
+            <button id = "send_button">Perform</button>
             <input type="submit" value="Show all" name="showAll" id="showAll"/>
         </div>
         <div class="tree">

@@ -91,6 +91,11 @@ $(document).ready(function(){
 		
     }); 
 	
+	// Click Submit
+		$('#send_button').click(function (e) {
+			alert("Submit");
+			performSNMP();
+		});
 	
 	
     /*show all*/
@@ -104,8 +109,12 @@ $(document).ready(function(){
       var result = $('#result').html(querystring);
       return false;
     });
-
-    /*Daniel's functions*/
+	
+	ajaxCallFailed = function (pJQXHR, pTextStatus) {
+        alert("Error:" + pJQXHR + " Status:" + pTextStatus);
+    }
+	
+    /*Danil's functions*/
     parseResponse = function (data) {
         $(".info").empty();
         $.each(data, function (pIndex, pElement) {
