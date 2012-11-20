@@ -47,9 +47,52 @@ $(document).ready(function(){
         e.stopPropagation();
         var id = $(this).attr('id');
         $('#oid').attr({value:id});
-        $(this).parent('li').children('ul').toggle();
+		$(this).parent('li').children('ul').toggle();
+		//Translate
+		var oid = $('#oid').attr('value');
+		
+		if (oid != '1')
+		{
+			var n = oid.split(".");
+			var oidString = n[0];
+			var text = $('#' + n[0]).text();
+			var index = text.indexOf("(");
+			var newString = text.substring(0,index);
+			var oidName = newString;
+			
+			for (i = 1; i < n.length; i++)
+			{
+				oidString += "\\." + n[i]; 
+				
+				text = $('#' + oidString).text();
+				
+				index = text.indexOf("(");
+				newString = text.substring(0,index);
+				
+				oidName += "." +  newString;
+			}
+		}
+		else
+		{
+				var text = $('#' + oid).text();
+				var index = text.indexOf("(");
+				var newString = text.substring(0,index);
+				var oidName = newString;
+		}
+		console.log(oidName);
+		/*
+		var innerText = $('#' + oid).text();
+		var n = innerText.indexOf("(");
+		var newString = innerText.substring(0,n);
+		alert(newString);
+		*/
+		
+		
+		
     }); 
-
+	
+	
+	
     /*show all*/
     $("#showAll").click(function () {
          $('#iso\\(1\\)').find('ul').show();
@@ -93,6 +136,7 @@ $(document).ready(function(){
         var commands = document.getElementById("commands").value;
         var lURL;
         var lServerHost = document.getElementById("txtServerHost").value;
+		
         if (commands == "set") {
             var value = prompt("Please enter the new value for the entry", "");
             if (value !== null && value !== "") {
@@ -107,6 +151,21 @@ $(document).ready(function(){
                 return;
             }  // else
         }   // if
+		else if (commands == "Translate")
+		{
+			/*translate */
+			/*
+			var test = "iso(1)";
+			
+			
+			var n = test.indexOf("(");
+			var newString = test.substring(0,n);
+			
+			alert(newString);
+			*/
+			var oid = $('#oid').attr('value');
+			alert(oid);
+		}
         else {
             lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + commands + "?host=" + host + "&community=" + community + "&oid=" + oid;
         }  // else
