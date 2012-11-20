@@ -14,7 +14,7 @@
                 $(".node_list").append(lLI);
                 $(lLI).append($("<p>", lValue));
             }  // if
-            else if (lName.text == "NETSTAT" || lName.text == "STATUS") {
+            else if (lName.text == "NETSTAT" || lName.text == "STATUS" || lName.text == "TRANSLATE") {
                 var lValue = { text: pElement.value };
 
                 var lLI = document.createElement("li");
@@ -61,30 +61,43 @@
                 return;
             }  // else
         }   // if
-        if (lOperation == "test") {
+        else if (lOperation == "test") {
             var lResultValue = "";
             do {
                 var lValue = prompt("Please enter the test variable", "");
                 if (lValue != null && lValue != "") {
-                    if (lResultValue == "") 
-		    {
-                        lResultValue = lValue + ";";
-                    }  // if
-
-                    lResultValue = lResultValue + lValue + ";";
+                    lResultValue = lResultValue + lValue + ";";             
                 }  // if
                 else {
-                    lResultValue = lResultValue + ";";
                     break;
                 }  // else
             } while (true);
 
-            if (lResultValue == ";") {
+            if (lResultValue == "") {
                 alert("The operation is canceled by the user");
                 return;
             }  // if
 
             lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oids=" + lResultValue;
+        }   // if
+        else if (lOperation == "translate") {
+            var lResultValue = "";
+            do {
+                var lValue = prompt("Please enter the translate numeric oid", "");
+                if (lValue != null && lValue != "") {
+                    lResultValue = lResultValue + lValue + ";";             
+                }  // if
+                else {
+                    break;
+                }  // else
+            } while (true);
+
+            if (lResultValue == "") {
+                alert("The operation is canceled by the user");
+                return;
+            }  // if
+
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?oids=" + lResultValue;
         }   // if
         else if (lOperation == "status" || lOperation == "netstat") {
             lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity;
@@ -121,6 +134,7 @@
 <option>status</option>
 <option>netstat</option>
 <option>test</option>
+<option>translate</option>
 </select>
 <button onClick = "performSNMP()" id = "send_button">Perform</button>
 <!-- Div content is dynamic-->

@@ -71,4 +71,37 @@ public class CLISNMPOperations
 			pException.printStackTrace();
 		}  // catch
 	}
+	
+	static void snmptranslate(String pOID, NetworkStatus pStatus)
+	{	
+		try {
+			Process lRuntimeProcess = Runtime.getRuntime().exec("snmptranslate " + pOID);
+			
+			BufferedReader lInputReader = new BufferedReader(new InputStreamReader(lRuntimeProcess.getInputStream()));
+			BufferedReader lErrorReader = new BufferedReader(new InputStreamReader(lRuntimeProcess.getErrorStream()));
+		
+			String lTemp = lInputReader.readLine();
+			
+			while(lTemp != null)
+			{
+				pStatus.setMessage("TRANSLATE", lTemp);
+				lTemp = lInputReader.readLine();
+			}  // while
+			
+			lTemp = lErrorReader.readLine();
+			
+			while(lTemp != null)
+			{
+				pStatus.setMessage("TRANSLATE ERROR", lTemp);
+				lTemp = lErrorReader.readLine();
+			}  // while
+			
+			lInputReader.close();
+			lErrorReader.close();
+		}  // try
+		catch (IOException pException) {
+			pStatus.setMessage("TRANSLATE ERROR", pException.toString());
+			pException.printStackTrace();
+		}  // catch
+	}  // void snmptranslate
 }

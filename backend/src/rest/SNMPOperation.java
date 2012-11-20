@@ -57,7 +57,38 @@ public class SNMPOperation {
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
     }
-   
+
+    /**
+     * GET method to perform snmptranslate
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource.
+     */
+    @Path("/translate")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding snmptranslate(@QueryParam("oids") String pOIDs,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+        
+        String [] lOIDs = pOIDs.trim().split(";");
+    	
+    	int lOIDSize = lOIDs.length;
+    	
+    	for(int lIndex = 0; lIndex < lOIDSize; lIndex++)
+    	{
+    		if(lOIDs[lIndex].trim() == "")
+    		{
+    			continue;
+    		}  // if
+    	
+    		CLISNMPOperations.snmptranslate(lOIDs[lIndex], lStatus);
+    	}  // for
+    	
+        return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // snmptranslate
+    
     /**
      * GET method to perform snmpget
      * @param pHost The address of the host for the element
@@ -172,7 +203,7 @@ public class SNMPOperation {
     		@QueryParam("callback") String pCallback) 
     {
         NetworkStatus lStatus = new NetworkStatus();
-        
+       
         try
         {
         	// Create a communication
@@ -180,15 +211,15 @@ public class SNMPOperation {
         			InetAddress.getByName(pHost);
         	
         	int lVersion = 0;
+        	System.out.println("========================================OIDS " + pOIDs);
         	
         	SNMPv1CommunicationInterface lInterface = new SNMPv1CommunicationInterface(lVersion, lHostAddress, pCommunity);
         	
         	String lSNMPNULL = "class snmp.SNMNULL";
         	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
-
-        	System.out.println("================================================OID TEST" + pOIDs);
         	
         	String [] lOIDs = pOIDs.trim().split(";");
+        	
         	
         	int lOIDSize = lOIDs.length;
         	
@@ -231,7 +262,7 @@ public class SNMPOperation {
         }  // catch
         catch(Exception pException)
         {
-        	lStatus.setMessage("ERROR", "Error in generating data" + pException.toString());
+        	lStatus.setMessage("ERROR", "Error in generating data " + pException.toString());
         }  // catch
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
