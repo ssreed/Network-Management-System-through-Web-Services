@@ -108,7 +108,7 @@ public class SNMPOperation {
         	String lSNMPNULL = "class snmp.SNMNULL";
         	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
         	
-        	SNMPVarBindList lSNMPVar = lInterface.getNextMIBEntry(pOID);
+        	SNMPVarBindList lSNMPVar = lInterface.getMIBEntry(pOID);
         	SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
         	SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
         	SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
@@ -156,6 +156,87 @@ public class SNMPOperation {
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
     }  // JSONWithPadding snmpset
+
+    /**
+     * test method to perform snmptest
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource.
+     */
+    @Path("/test")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding snmptest(@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("oids") String pOIDs,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+        
+        try
+        {
+        	// Create a communication
+        	InetAddress lHostAddress = 
+        			InetAddress.getByName(pHost);
+        	
+        	int lVersion = 0;
+        	
+        	SNMPv1CommunicationInterface lInterface = new SNMPv1CommunicationInterface(lVersion, lHostAddress, pCommunity);
+        	
+        	String lSNMPNULL = "class snmp.SNMNULL";
+        	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
+
+        	System.out.println("================================================OID TEST" + pOIDs);
+        	
+        	String [] lOIDs = pOIDs.trim().split(";");
+        	
+        	int lOIDSize = lOIDs.length;
+        	
+        	for(int lIndex = 0; lIndex < lOIDSize; lIndex++)
+        	{
+        		if(lOIDs[lIndex].trim() == "")
+        		{
+        			continue;
+        		}  // if
+        		
+        		SNMPVarBindList lSNMPVar = lInterface.getMIBEntry(lOIDs[lIndex]);
+        		SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
+        		SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
+        		SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
+        		String lSNMPValueType = lSNMPValue.getClass().toString();
+        			
+        		if(!lSNMPValueType.equals(lSNMPNULL))
+        		{
+        			if(lSNMPValueType.equals(lSNMPOCETSTRING))
+        			{
+        				String lSNMPValueString = lSNMPValue.toString();
+        				int lNULLIndex = lSNMPValueString.indexOf('\0');
+        				if(lNULLIndex >= 0)
+        				{
+        					lSNMPValueString = lSNMPValueString.substring(0, lNULLIndex);
+        				}  // if
+        					lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValueString + " (hex: " +((SNMPOctetString)lSNMPValue).toHexString() + ")");      				
+        			}  // else
+        			else
+        			{
+        				lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValue);
+        			}  // else
+        		}  // if
+        	}  // for
+        	lInterface.closeConnection();
+        }  // try
+        catch(UnknownHostException pException)
+        {
+        	lStatus.setMessage("Error", "Invalid Address");
+        }  // catch
+        catch(Exception pException)
+        {
+        	lStatus.setMessage("ERROR", "Error in generating data" + pException.toString());
+        }  // catch
+        
+        return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // JSONWithPadding snmptest
+    
     
     /**
      * GET method to perform snmpget
@@ -186,7 +267,7 @@ public class SNMPOperation {
         	String lSNMPNULL = "class snmp.SNMNULL";
         	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
 
-        	SNMPVarBindList lSNMPVar = lInterface.getNextMIBEntry(pOID);
+        	SNMPVarBindList lSNMPVar = lInterface.getMIBEntry(pOID);
         	SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
         	SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
         	SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
@@ -257,7 +338,7 @@ public class SNMPOperation {
         	{
         		try
         		{
-        			SNMPVarBindList lSNMPVar = lInterface.getNextMIBEntry(lRetrievedOID);
+        			SNMPVarBindList lSNMPVar = lInterface.getMIBEntry(lRetrievedOID);
         			SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
         			SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
         			SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);

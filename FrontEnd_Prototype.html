@@ -1,0 +1,135 @@
+<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+
+    parseResponse = function (data) {
+        $(".node_list").empty();
+        $.each(data, function (pIndex, pElement) {
+            var lName = { text: pElement.name };
+            if (lName.text == "OID Name") {
+                var lValue = { text: pElement.value };
+
+                var lLI = document.createElement("li");
+                $(".node_list").append(lLI);
+                $(lLI).append($("<p>", lValue));
+            }  // if
+            else if (lName.text == "NETSTAT" || lName.text == "STATUS") {
+                var lValue = { text: pElement.value };
+
+                var lLI = document.createElement("li");
+                $(".node_list").append(lLI);
+                $(lLI).append($("<p>", lValue));
+            }  // if
+            else {
+                var lValue = { text: pElement.value };
+                var lLI = document.createElement("li");
+                $(".node_list").append(lLI);
+                $(lLI).append($("<p>", lName));
+                $(lLI).append($("<p>", lValue));
+            }  // else
+        });
+    }  // parseResponse
+
+    ajaxCallFailed = function (pJQXHR, pTextStatus) {
+        alert("Error:" + pJQXHR + " Status:" + pTextStatus);
+    }
+
+    $(document).ready(function () {
+        alert("JQuery Ready");
+    });
+
+    function performSNMP() {
+
+        var lCommunity = document.getElementById("txtCommunity").value;
+        var lHost = document.getElementById("txtHost").value;
+        var lOID = document.getElementById("txtOID").value;
+        var lOperation = document.getElementById("selectOperation").value;
+        var lURL;
+        var lServerHost = document.getElementById("txtServerHost").value;
+        if (lOperation == "set") {
+            var lValue = prompt("Please enter the new value for the entry", "");
+            if (lValue != null && lValue != "") {
+                lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID + "&value=" + lValue;
+            }  // if
+            else if (lValue == "") {
+                alert("The operation is canceled due to an invalid input. The input cannot be empty.");
+                return;
+            }  // else
+            else {
+                alert("The operation is canceled by the user");
+                return;
+            }  // else
+        }   // if
+        if (lOperation == "test") {
+            var lResultValue = "";
+            do {
+                var lValue = prompt("Please enter the test variable", "");
+                if (lValue != null && lValue != "") {
+                    if (lResultValue == "") 
+		    {
+                        lResultValue = lValue + ";";
+                    }  // if
+
+                    lResultValue = lResultValue + lValue + ";";
+                }  // if
+                else {
+                    lResultValue = lResultValue + ";";
+                    break;
+                }  // else
+            } while (true);
+
+            if (lResultValue == ";") {
+                alert("The operation is canceled by the user");
+                return;
+            }  // if
+
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oids=" + lResultValue;
+        }   // if
+        else if (lOperation == "status" || lOperation == "netstat") {
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity;
+        }  // else
+        else {
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID;
+        }  // else
+        $.ajax({
+            cache: true,
+            url: lURL,
+            data: {},
+            datatype: "GET",
+            contentType: "application/javascript",
+            dataType: "jsonp",
+            success: parseResponse,
+            error: ajaxCallFailed
+        });  // ajax
+    }  // function performSNMP
+</script>
+</head>
+<body>
+<p>Server Host: </p>
+<input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
+<p>Host: </p>
+<input type = "text" id = "txtHost" value = "130.65.111.60"/>
+<p>Community: </p>
+<input type = "text" id = "txtCommunity" value = "public"/>
+<p>OID: </p>
+<input type = "text" id = "txtOID" value = "1.3.6.1.2.1.1.3.0"/>
+<select id = "selectOperation">
+<option>walk</option>
+<option>get</option>
+<option>set</option>
+<option>status</option>
+<option>netstat</option>
+<option>test</option>
+</select>
+<button onClick = "performSNMP()" id = "send_button">Perform</button>
+<!-- Div content is dynamic-->
+<div data-role = "content" class = "nodesContent">
+<ul class = "node_list">
+</ul>
+</div>
+</span>
+</script>
+</form>
+</body>
+</html>
