@@ -44,6 +44,46 @@ public class SNMPOperation {
      * @param pCommunity The community of the host for the element
      * @return an HTTP response with content of the updated or created resource.
      */
+    @Path("/status")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding snmpstat(@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+        
+        CLISNMPOperations.snmpstatus(pHost, pCommunity, lStatus);
+        
+        return new JSONWithPadding(lStatus.toString(), pCallback);
+    }
+   
+    /**
+     * GET method to perform snmpget
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource.
+     */
+    @Path("/netstat")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding snmpnetstat(@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+        
+        CLISNMPOperations.snmpnetstat(pHost, pCommunity, lStatus);
+        
+        return new JSONWithPadding(lStatus.toString(), pCallback);
+    }
+    
+    /**
+     * GET method to perform snmpget
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource.
+     */
     @Path("/set")
     @GET
     @Produces("application/javascript")
@@ -114,8 +154,6 @@ public class SNMPOperation {
         	lStatus.setMessage("ERROR", pException.toString());
         }  // catch
         
-        System.out.println(lStatus.toString());
-        
         return new JSONWithPadding(lStatus.toString(), pCallback);
     }  // JSONWithPadding snmpset
     
@@ -182,8 +220,6 @@ public class SNMPOperation {
         {
         	lStatus.setMessage("ERROR", "Error in generating data" + pException.toString());
         }  // catch
-        
-        System.out.println(lStatus.toString());
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
     }  // JSONWithPadding snmpget
@@ -264,8 +300,6 @@ public class SNMPOperation {
         {
         	lStatus.setMessage("ERROR", "Error in generating data" + pException.toString());
         }  // catch
-        
-        System.out.println(lStatus.toString());
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
         }  // JSONWithPadding snmpWalk
