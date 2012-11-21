@@ -93,7 +93,6 @@ $(document).ready(function(){
 	
 	// Click Submit
 		$('#send_button').click(function (e) {
-			alert("Submit");
 			performSNMP();
 		});
 	
@@ -115,7 +114,7 @@ $(document).ready(function(){
     }
 	
     /*Danil's functions*/
-    parseResponse = function (data) {
+   parseResponse = function (data) {
         $(".info").empty();
         $.each(data, function (pIndex, pElement) {
             var lName = { text: pElement.name };
@@ -126,8 +125,14 @@ $(document).ready(function(){
                 $(".info").append(lLI);
                 $(lLI).append($("<p>", lValue));
             }  // if
-            else
-            { 
+            else if (lName.text == "NETSTAT" || lName.text == "STATUS" || lName.text == "TRANSLATE") {
+                var lValue = { text: pElement.value };
+
+                var lLI = document.createElement("li");
+                $(".info").append(lLI);
+                $(lLI).append($("<p>", lValue));
+            }  // if
+            else {
                 var lValue = { text: pElement.value };
                 var lLI = document.createElement("li");
                 $(".info").append(lLI);
@@ -135,23 +140,22 @@ $(document).ready(function(){
                 $(lLI).append($("<p>", lValue));
             }  // else
         });
-    };  // parseResponse
+    }  // parseResponse
+
 
     function performSNMP() {
-
-        var community = document.getElementById("community").value;
-        var host = document.getElementById("host").value;
-        var oid = document.getElementById("oid").value;
-        var commands = document.getElementById("commands").value;
-        var lURL;
+        var lCommunity = document.getElementById("community").value;
+        var lHost = document.getElementById("host").value;
+        var lOID = document.getElementById("oid").value;
+        var lOperation = document.getElementById("commands").value.toLowerCase();
+	var lURL;
         var lServerHost = document.getElementById("txtServerHost").value;
-		
-        if (commands == "set") {
-            var value = prompt("Please enter the new value for the entry", "");
-            if (value !== null && value !== "") {
-                lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + commands + "?host=" + host + "&community=" + community + "&oid=" + oid + "&value=" + value;
+        if (lOperation == "set") {
+            var lValue = prompt("Please enter the new value for the entry", "");
+            if (lValue != null && lValue != "") {
+                lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID + "&value=" + lValue;
             }  // if
-            else if (value === "") {
+            else if (lValue == "") {
                 alert("The operation is canceled due to an invalid input. The input cannot be empty.");
                 return;
             }  // else
@@ -160,27 +164,53 @@ $(document).ready(function(){
                 return;
             }  // else
         }   // if
-		else if (commands == "Translate")
-		{
-			/*translate */
-			/*
-			var test = "iso(1)";
-			
-			
-			var n = test.indexOf("(");
-			var newString = test.substring(0,n);
-			
-			alert(newString);
-			*/
-			var oid = $('#oid').attr('value');
-			alert(oid);
-		}
+        else if (lOperation == "test") {
+            var lResultValue = "";
+            do {
+                var lValue = prompt("Please enter the test variable", "");
+                if (lValue != null && lValue != "") {
+                    lResultValue = lResultValue + lValue + ";";             
+                }  // if
+                else {
+                    break;
+                }  // else
+            } while (true);
+
+            if (lResultValue == "") {
+                alert("The operation is canceled by the user");
+                return;
+            }  // if
+
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oids=" + lResultValue;
+        }   // if
+        else if (lOperation == "translate") {
+            var lResultValue = "";
+            do {
+                var lValue = prompt("Please enter the translate numeric oid", "");
+                if (lValue != null && lValue != "") {
+                    lResultValue = lResultValue + lValue + ";";             
+                }  // if
+                else {
+                    break;
+                }  // else
+            } while (true);
+
+            if (lResultValue == "") {
+                alert("The operation is canceled by the user");
+                return;
+            }  // if
+
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?oids=" + lResultValue;
+        }   // if
+        else if (lOperation == "status" || lOperation == "netstat") {
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity;
+        }  // else
         else {
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + commands + "?host=" + host + "&community=" + community + "&oid=" + oid;
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID;
         }  // else
         $.ajax({
             cache: true,
-            url: "http://24.7.122.241:8080/CS158B_WEBSERVICES/rest/snmpoperation/host=130.65.111.60&community=public&oid=1.3.6.1.2.1.1.3.0&commands=get",
+            url: lURL,
             data: {},
             datatype: "GET",
             contentType: "application/javascript",
