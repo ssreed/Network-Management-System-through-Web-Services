@@ -1,0 +1,212 @@
+﻿<html>
+<head>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
+<script>
+
+    parseResponse = function (data) {
+        $(".node_list").empty();
+        $.each(data, function (pIndex, pElement) {
+            var lName = { text: pElement.name };
+            if (lName.text == "OID Name") {
+                var lValue = { text: pElement.value };
+
+                var lLI = document.createElement("li");
+                $(".node_list").append(lLI);
+                $(lLI).append($("<p>", lValue));
+            }  // if
+            else if (lName.text == "NETSTAT" || lName.text == "STATUS" || lName.text == "TRANSLATE") {
+                var lValue = { text: pElement.value };
+
+                var lLI = document.createElement("li");
+                $(".node_list").append(lLI);
+                $(lLI).append($("<p>", lValue));
+            }  // if
+            else {
+                var lValue = { text: pElement.value };
+                var lLI = document.createElement("li");
+                $(".node_list").append(lLI);
+                $(lLI).append($("<p>", lName));
+                $(lLI).append($("<p>", lValue));
+            }  // else
+        });
+    }  // parseResponse
+
+    ajaxCallFailed = function (pJQXHR, pTextStatus) {
+        alert("Error:" + pJQXHR + " Status:" + pTextStatus);
+    }
+
+    $(document).ready(function () {
+        alert("JQuery Ready");
+    });
+
+    function performSNMP() {
+
+        var lCommunity = document.getElementById("txtCommunity").value;
+        var lHost = document.getElementById("txtHost").value;
+        var lOID = document.getElementById("txtOID").value;
+        var lOperation = document.getElementById("selectOperation").value;
+        var lURL;
+        var lServerHost = document.getElementById("txtServerHost").value;
+        if (lOperation == "set") {
+            var lValue = prompt("Please enter the new value for the entry", "");
+            if (lValue != null && lValue != "") {
+                lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID + "&value=" + lValue;
+            }  // if
+            else if (lValue == "") {
+                alert("The operation is canceled due to an invalid input. The input cannot be empty.");
+                return;
+            }  // else
+            else {
+                alert("The operation is canceled by the user");
+                return;
+            }  // else
+        }   // if
+        else if (lOperation == "test") {
+            var lResultValue = "";
+            do {
+                var lValue = prompt("Please enter the test variable", "");
+                if (lValue != null && lValue != "") {
+                    lResultValue = lResultValue + lValue + ";";             
+                }  // if
+                else {
+                    break;
+                }  // else
+            } while (true);
+
+            if (lResultValue == "") {
+                alert("The operation is canceled by the user");
+                return;
+            }  // if
+
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oids=" + lResultValue;
+        }   // if
+        else if (lOperation == "translate") {
+            var lResultValue = "";
+            do {
+                var lValue = prompt("Please enter the translate numeric oid", "");
+                if (lValue != null && lValue != "") {
+                    lResultValue = lResultValue + lValue + ";";             
+                }  // if
+                else {
+                    break;
+                }  // else
+            } while (true);
+
+            if (lResultValue == "") {
+                alert("The operation is canceled by the user");
+                return;
+            }  // if
+
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?oids=" + lResultValue;
+        }   // if
+        else if (lOperation == "status" || lOperation == "netstat") {
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity;
+        }  // else
+        else {
+            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID;
+        }  // else
+        $.ajax({
+            cache: true,
+            url: lURL,
+            data: {},
+            datatype: "GET",
+            contentType: "application/javascript",
+            dataType: "jsonp",
+            success: parseResponse,
+            error: ajaxCallFailed
+        });  // ajax
+    }  // function performSNMP
+</script>
+</head>
+<body>
+<p>Server Host: </p>
+<input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
+<p>Host: </p>
+<input type = "text" id = "txtHost" value = "130.65.111.60"/>
+<p>Community: </p>
+<input type = "text" id = "txtCommunity" value = "public"/>
+<p>
+RMON Alarm URI String
+</p>
+<p>
+http://localhost:8080/CS158B_WEBSERVICES/rest/snmpoperation/setrmonalarm
+?alarmindex=""
+&alarminterval=""
+&alarmvariable=""
+&alarmsampletype=""
+&alarmvalue=""
+&alarmstartupalarm=""
+&alarmrisingthreshold=""
+&alarmfallingthreshold=""
+%alarmrisingeventindex=""
+%alarmfallingeventindex=""
+%alarmstatus=""
+</p>
+<p>
+RMON Event URI String
+</p>
+<p>
+http://localhost:8080/CS158B_WEBSERVICES/rest/snmpoperation/setrmonevent
+?index
+&description=""
+&type=""
+&community=""
+&eventlasttimesent=""
+&evebtowner=""
+&status=""
+</p>
+<!-- <button onClick = "performSNMP()" id = "send_button">Perform</button>-->
+<!-- Div content is dynamic-->
+<div data-role = "content" class = "nodesContent">
+<tr>
+<td>
+RMON Alarm Table Reference: http://www.juniper.net/techpubs/en_US/junos11.3/topics/concept/rmon-alarms-overview-junos-nm.html
+</td>
+</tr>
+<tr>
+<td>
+<table border = 1>
+<tr>
+<td title = "The index value for alarmTable that identifies a specific entry">Index</td>
+<td title = "The interval, in seconds, over which data is sampled and compared with the rising and falling thresholds">Interval</td>
+<td title = "The MIB variable that is monitored by the alarm entry">Variable</td>
+<td title = "The method of sampling the selected variable and calculating the value to be compared against the thresholds">SampleType</td>
+<td title = "The value of the variable during the last sampling period. This value is compared with the rising and falling thresholds">Value</td>
+<td title = "The alarm sent when the entry is first activated.">Startup Alarm</td>
+<td title = "The upper threshold for the sampled variable">Rising Threshold</td>
+<td title = "The lower threshold for the sampled variable">Falling Threshold</td>
+<td title = "The eventTable entry used when a rising threshold is crossed">Rising Event Index</td>
+<td title = "The eventTable entry used when a falling threshold is crossed">Falling Event Index</td>
+<td title = "Method for adding and removing entries from the table. It can also be used to change the state of an entry to allow modifications">Status</td>
+</tr>
+</table>
+<tr>
+<td>
+RMON Event Table Reference: http://www.juniper.net/techpubs/en_US/junos11.3/topics/concept/rmon-events-junos-nm.html
+</td>
+</tr>
+</td>
+</tr>
+<tr>
+<td>
+<table border = 1>
+<tr>
+<td title = "An index that uniquely identifies an entry in eventTable. Each entry defines one event that is generated when the appropriate conditions occur.">Index</td>
+<td title = "A comment describing the event entry">Description</td>
+<td title = "Type of notification that the probe makes about this event">Type</td>
+<td title = "Trap group used if an SNMP trap is to be sent. If eventCommunity is not configured, a trap is sent to each trap group configured with the rmon-alarm category.">Community</td>
+<td title = "Value of sysUpTime when this event entry last generated an event.">Last Time Sent</td>
+<td title = "Any text string specified by the creating management application or the command-line interface (CLI). Typically, it is used to identify a network manager (or application) and can be used for fine access control between participating management applications.">Owner</td>
+<td title = "Status of this event entry.">Status</td>
+</tr>
+</table>
+</td>
+</tr>
+<ul class = "node_list">
+</ul>
+</div>
+</span>
+</script>
+</form>
+</body>
+</html>
