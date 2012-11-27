@@ -6,28 +6,28 @@ $(document).ready(function(){
         {'name' : 'dod(6)',  'parent' : 'org\\(3\\)', 'oid' : '1.3.6'},
         {'name' : 'internet(1)',  'parent' : 'dod\\(6\\)', 'oid' : '1.3.6.1'},
         {'name' : 'mgmt(2)',  'parent' : 'internet\\(1\\)', 'oid' : '1.3.6.1.2'},
-        {'name' : 'mib(2)',  'parent' : 'mgmt\\(2\\)', 'oid' : '1.3.6.1.2.2'},
-        {'name' : 'system(1)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.1'},
-        {'name' : 'interface(2)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.2'},
-        {'name' : 'at(3)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.3'},
-        {'name' : 'ip(4)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.4'},
-        {'name' : 'icmp(5)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.5'},
-        {'name' : 'system(6)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.6'},
-        {'name' : 'system(7)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.7'},
-        {'name' : 'system(8)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.8'},
-        {'name' : 'system(10)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.10'},
-        {'name' : 'snmp(11)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.11'},
-        {'name' : 'rmon(16)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.16'},
-        {'name' : 'statistics(1)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.1'},
-        {'name' : 'history(2)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.2'},
-        {'name' : 'alarm(3)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.3'},
-        {'name' : 'hosts(4)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.4'},
-        {'name' : 'hostTopN(5)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.5'},
-        {'name' : 'matrix(6)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.6'},
-        {'name' : 'filter(7)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.7'},
-        {'name' : 'capture(8)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.8'},
-        {'name' : 'event(9)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.9'},
-        {'name' : 'tokenRing(10)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.10'}
+        {'name' : 'mib-2(1)',  'parent' : 'mgmt\\(2\\)', 'oid' : '1.3.6.1.2.1'},
+        {'name' : 'system(1)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.1'},
+        {'name' : 'interface(2)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.2'},
+        {'name' : 'at(3)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.3'},
+        {'name' : 'ip(4)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.4'},
+        {'name' : 'icmp(5)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.5'},
+        {'name' : 'system(6)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.6'},
+        {'name' : 'system(7)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.7'},
+        {'name' : 'system(8)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.8'},
+        {'name' : 'system(10)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.10'},
+        {'name' : 'snmp(11)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.11'},
+        {'name' : 'rmon(16)',  'parent' : 'mib-2\\(1\\)', 'oid' : '1.3.6.1.2.1.16'},
+        {'name' : 'statistics(1)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.1'},
+        {'name' : 'history(2)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.2'},
+        {'name' : 'alarm(3)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.3'},
+        {'name' : 'hosts(4)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.4'},
+        {'name' : 'hostTopN(5)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.5'},
+        {'name' : 'matrix(6)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.6'},
+        {'name' : 'filter(7)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.7'},
+        {'name' : 'capture(8)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.8'},
+        {'name' : 'event(9)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.9'},
+        {'name' : 'tokenRing(10)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.1.16.10'}
     ];
     
     /*generate tree*/
@@ -116,8 +116,8 @@ $(document).ready(function(){
 
     /* create URL */
     $('#input_form').submit(function() {
-      var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
-      var result = $('#result').html(querystring);
+      //var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
+      //var result = $('#result').html(querystring);
       return false;
     });
 	
