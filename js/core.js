@@ -1,5 +1,5 @@
-$(document).ready(function(){ 
-	/*dummy data*/
+$(document).ready(function(){
+	/*data*/
     var jsonArray = [
         {'name' : 'iso(1)','parent' : '', 'oid' : '1'},
         {'name' : 'org(3)','parent' : 'iso\\(1\\)', 'oid' : '1.3'},
@@ -8,37 +8,56 @@ $(document).ready(function(){
         {'name' : 'mgmt(2)',  'parent' : 'internet\\(1\\)', 'oid' : '1.3.6.1.2'},
         {'name' : 'mib(2)',  'parent' : 'mgmt\\(2\\)', 'oid' : '1.3.6.1.2.2'},
         {'name' : 'system(1)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.1'},
-        {'name' : 'interface(2)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.2'}
+        {'name' : 'interface(2)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.2'},
+        {'name' : 'at(3)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.3'},
+        {'name' : 'ip(4)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.4'},
+        {'name' : 'icmp(5)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.5'},
+        {'name' : 'system(6)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.6'},
+        {'name' : 'system(7)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.7'},
+        {'name' : 'system(8)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.8'},
+        {'name' : 'system(10)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.10'},
+        {'name' : 'snmp(11)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.11'},
+        {'name' : 'rmon(16)',  'parent' : 'mib\\(2\\)', 'oid' : '1.3.6.1.2.2.16'},
+        {'name' : 'statistics(1)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.1'},
+        {'name' : 'history(2)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.2'},
+        {'name' : 'alarm(3)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.3'},
+        {'name' : 'hosts(4)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.4'},
+        {'name' : 'hostTopN(5)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.5'},
+        {'name' : 'matrix(6)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.6'},
+        {'name' : 'filter(7)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.7'},
+        {'name' : 'capture(8)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.8'},
+        {'name' : 'event(9)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.9'},
+        {'name' : 'tokenRing(10)',  'parent' : 'rmon\\(16\\)', 'oid' : '1.3.6.1.2.2.16.10'}
     ];
     
     /*generate tree*/
-    for(var i = 0; i < jsonArray.length; i++) 
+    for(var i = 0; i < jsonArray.length; i++)
     {
         var nodes = "";
         if(i === 0)
         {
             nodes = '<li>';
             nodes += "<a id=" + jsonArray[i].oid + ">";
-            nodes += jsonArray[i].name; 
+            nodes += jsonArray[i].name;
             nodes += '</a>';
-            nodes += '</li>';  
-            $("#iso\\(1\\)").append(nodes); 
+            nodes += '</li>';
+            $("#iso\\(1\\)").append(nodes);
         }
-        else 
+        else
         {
             nodes = "<ul class='node' id=" + jsonArray[i].name + ">";
             nodes += '<li>';
             nodes += "<a id=" + jsonArray[i].oid + ">";
-            nodes += jsonArray[i].name; 
+            nodes += jsonArray[i].name;
             nodes += '</a>';
             nodes += '</li>';
-            nodes += '</ul>'; 
-            var hashVar = "#" + jsonArray[i].parent; 
+            nodes += '</ul>';
+            var hashVar = "#" + jsonArray[i].parent;
             $(hashVar).children('li').append(nodes);
         }
     }
 
-    /*hide tree*/   
+    /*hide tree*/
     $('#iso\\(1\\)').find('ul').hide();
 
     /*toggle tree nodes*/
@@ -48,21 +67,23 @@ $(document).ready(function(){
         var id = $(this).attr('id');
         $('#oid').attr({value:id});
 		$(this).parent('li').children('ul').toggle();
-		//Translate
-		var oid = $('#oid').attr('value');
 		
+        //Translate
+		var oid = $('#oid').attr('value');
+		var nodes, oidString, text, index, newString, oidName;
+
 		if (oid != '1')
 		{
-			var n = oid.split(".");
-			var oidString = n[0];
-			var text = $('#' + n[0]).text();
-			var index = text.indexOf("(");
-			var newString = text.substring(0,index);
-			var oidName = newString;
+			nodes = oid.split(".");
+			oidString = nodes[0];
+			text = $('#' + nodes[0]).text();
+			index = text.indexOf("(");
+			newString = text.substring(0,index);
+			oidName = newString;
 			
-			for (i = 1; i < n.length; i++)
+			for (i = 1; i < nodes.length; i++)
 			{
-				oidString += "\\." + n[i]; 
+				oidString += "\\." + nodes[i];
 				
 				text = $('#' + oidString).text();
 				
@@ -74,22 +95,13 @@ $(document).ready(function(){
 		}
 		else
 		{
-				var text = $('#' + oid).text();
-				var index = text.indexOf("(");
-				var newString = text.substring(0,index);
-				var oidName = newString;
+				text = $('#' + oid).text();
+				index = text.indexOf("(");
+				newString = text.substring(0,index);
+				oidName = newString;
 		}
-		console.log(oidName);
-		/*
-		var innerText = $('#' + oid).text();
-		var n = innerText.indexOf("(");
-		var newString = innerText.substring(0,n);
-		alert(newString);
-		*/
-		
-		
-		
-    }); 
+		//console.log(oidName);
+    });
 	
 	// Click Submit
 		$('#send_button').click(function (e) {
@@ -111,7 +123,7 @@ $(document).ready(function(){
 	
 	ajaxCallFailed = function (pJQXHR, pTextStatus) {
         alert("Error:" + pJQXHR + " Status:" + pTextStatus);
-    }
+    };
 	
     /*Danil's functions*/
    parseResponse = function (data) {
@@ -140,7 +152,7 @@ $(document).ready(function(){
                 $(lLI).append($("<p>", lValue));
             }  // else
         });
-    }  // parseResponse
+    };// parseResponse
 
 
     function performSNMP() {
@@ -152,10 +164,10 @@ $(document).ready(function(){
         var lServerHost = document.getElementById("txtServerHost").value;
         if (lOperation == "set") {
             var lValue = prompt("Please enter the new value for the entry", "");
-            if (lValue != null && lValue != "") {
+            if (lValue !== null && lValue !== "") {
                 lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID + "&value=" + lValue;
             }  // if
-            else if (lValue == "") {
+            else if (lValue === "") {
                 alert("The operation is canceled due to an invalid input. The input cannot be empty.");
                 return;
             }  // else
@@ -168,15 +180,15 @@ $(document).ready(function(){
             var lResultValue = "";
             do {
                 var lValue = prompt("Please enter the test variable", "");
-                if (lValue != null && lValue != "") {
-                    lResultValue = lResultValue + lValue + ";";             
+                if (lValue !== null && lValue !== "") {
+                    lResultValue = lResultValue + lValue + ";";
                 }  // if
                 else {
                     break;
                 }  // else
             } while (true);
 
-            if (lResultValue == "") {
+            if (lResultValue === "") {
                 alert("The operation is canceled by the user");
                 return;
             }  // if
@@ -187,15 +199,15 @@ $(document).ready(function(){
             var lResultValue = "";
             do {
                 var lValue = prompt("Please enter the translate numeric oid", "");
-                if (lValue != null && lValue != "") {
-                    lResultValue = lResultValue + lValue + ";";             
+                if (lValue !== null && lValue !== "") {
+                    lResultValue = lResultValue + lValue + ";";
                 }  // if
                 else {
                     break;
                 }  // else
             } while (true);
 
-            if (lResultValue == "") {
+            if (lResultValue === "") {
                 alert("The operation is canceled by the user");
                 return;
             }  // if
