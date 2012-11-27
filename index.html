@@ -14,7 +14,7 @@
         </div>
         <div id="input">
              <form id="input_form">
-                <p>Server Host: </p>
+                <label id="serverHostlabel">Server Host</label>
                 <input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
                 <label id="hostlabel">Host</label>
                 <input type="text" name="host" id="host" placeholder="Host IP goes here" autofocus required> 
@@ -33,10 +33,10 @@
                     <option>Get</option>
                     <option>Translate</option>
                 </select>
-                <input type="submit" value="Submit" name="submit" />
+                <!--<input type="submit" value="Submit" name="submit" />-->
+                <button id = "send_button">Submit</button>
             </form>
             <p id="result"></p>
-            <button id = "send_button">Perform</button>
             <input type="submit" value="Show all" name="showAll" id="showAll"/>
         </div>
         <div class="tree">
