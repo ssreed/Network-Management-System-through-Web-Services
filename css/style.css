@@ -28,11 +28,12 @@ h1 {
 .info, .tree {
     width: 50%;
     height: 100%;
+    float: left;
     /*border: 0.1em solid blue;*/
 }
 
 .info {
-    float: left;
+    float: right;
 }
 
 
