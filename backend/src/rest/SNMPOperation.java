@@ -178,7 +178,12 @@ public class SNMPOperation {
         }  // try
         catch(UnknownHostException pException)
         {
-        	lStatus.setMessage("Error", "Invalid Address");
+        	lStatus.setMessage("ERROR", "Invalid Address");
+        }  // catch
+        catch(NumberFormatException pException)
+        {
+        	lStatus.setMessage("ERROR", "Cannot translate " + pValue + " into number format. ");
+        	lStatus.setMessage("ERROR", "Expect number input, but get string input");
         }  // catch
         catch(Exception pException)
         {
@@ -365,17 +370,19 @@ public class SNMPOperation {
         	
         	String lSNMPNULL = "class snmp.SNMNULL";
         	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
+        	
+        	SNMPVarBindList lSNMPVar = lInterface.getMIBEntry(lRetrievedOID);
+			SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
+			SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
+			SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
+			lRetrievedOID = lSNMPOID.toString();
+			String lSNMPValueType = lSNMPValue.getClass().toString();
+			
         	do
         	{
         		try
         		{
-        			SNMPVarBindList lSNMPVar = lInterface.getMIBEntry(lRetrievedOID);
-        			SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
-        			SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
-        			SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
-        			lRetrievedOID = lSNMPOID.toString();
-        			String lSNMPValueType = lSNMPValue.getClass().toString();
-        			
+        		
         			if(lSNMPValueType.equals(lSNMPNULL))
         			{
         				break;
@@ -400,6 +407,13 @@ public class SNMPOperation {
         			lStatus.setMessage("ERROR", pException.toString());
         			break;
         		}  // catch
+        		
+        		lSNMPVar = lInterface.getNextMIBEntry(lRetrievedOID);
+    			lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
+    			lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
+    			lSNMPValue = lPair.getSNMPObjectAt(1);
+    			lRetrievedOID = lSNMPOID.toString();
+    			lSNMPValueType = lSNMPValue.getClass().toString();    			
         	}while(true);
         	
         	lInterface.closeConnection();
