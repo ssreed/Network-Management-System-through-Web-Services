@@ -72,7 +72,7 @@ public class UDPServer extends Thread
             }  // try
             catch(Exception pException)
             {
-                System.out.println("Error in server");
+            	pException.printStackTrace();
             }  // 
         }  // while
     }  // void run

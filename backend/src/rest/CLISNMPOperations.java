@@ -17,7 +17,7 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import rest.NetworkStatus;
-import rest.SNMPCommandObject;
+import snmpadapter.SNMPCommandObject;
 
 public class CLISNMPOperations 
 {
