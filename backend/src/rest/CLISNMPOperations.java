@@ -1,8 +1,23 @@
+/**
+ * 
+ * @author Kai - Ting (Danil) Ko
+ *
+ */
+
 package rest;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutput;
+import java.io.ObjectOutputStream;
+import java.net.DatagramPacket;
+import java.net.DatagramSocket;
+import java.net.InetAddress;
+
+import rest.NetworkStatus;
+import rest.SNMPCommandObject;
 
 public class CLISNMPOperations 
 {
@@ -16,9 +31,18 @@ public class CLISNMPOperations
 		getCommandLineInput("deleteSec2Group" , "snmpvacm -v1 -c " + pCommunity + " " + pAddress + " deleteSec2Group 1 " + pSecurityName, pStatus);
 	}  // void createView
 	
-	static void createView(String pCommunity, String pAddress, String pOption, String pViewName, String pOID, NetworkStatus pStatus)
+	static String createView(String pCommunity, String pAddress, String pOption, String pViewName, String pOID)
 	{	
-		getCommandLineInput("createView" , "snmpvacm -v1 -c " + pCommunity + " " + pAddress + " createView " + pOption + " " + pViewName + " " + pOID , pStatus);
+		//getCommandLineInput("createView" , "snmpvacm -v1 -c " + pCommunity + " " + pAddress + " createView " + pOption + " " + pViewName + " " + pOID , pStatus);
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("createView");
+		lObject.setCommunity(pCommunity);
+		lObject.setOID(pOID);
+		lObject.setOption(pOption);
+		lObject.setViewName(pViewName);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
 	}  // void createView
 
 	static void deleteView(String pCommunity, String pAddress, String pViewName, String pOID, NetworkStatus pStatus)
@@ -88,4 +112,67 @@ public class CLISNMPOperations
 			pException.printStackTrace();
 		}  // catch
 	}  // void getCommandLineInput
+	
+	static String stopSNMPD(String pAddress, String pPassword)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("stopSNMPDView");
+		lObject.setCommunity(pPassword);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void stopSNMPD
+	
+	static String startSNMPD(String pAddress, String pPassword)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("startSNMPDView");
+		lObject.setCommunity(pPassword);
+
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void stopSNMPD
+	
+	public static String sendUDPSNMPCommand(SNMPCommandObject pObject, String pAddress)
+	{
+		String lResultStatus;
+    	
+        try
+        {
+        	// Create a communication
+        	InetAddress lHostAddress = 
+        			InetAddress.getByName(pAddress);
+        	
+        	DatagramSocket mSocket = new DatagramSocket();
+        	
+        	ByteArrayOutputStream lOutputStream = new ByteArrayOutputStream();
+        	
+        	ObjectOutput lObjectOutput = new ObjectOutputStream(lOutputStream);
+        	lObjectOutput.writeObject(pObject);
+        	lObjectOutput.close();
+        	
+        	byte [] lSeralizedArray = lOutputStream.toByteArray();
+        
+            DatagramPacket lPacket = new DatagramPacket(lSeralizedArray,  lSeralizedArray.length, lHostAddress, 8889);
+            
+            lPacket = new DatagramPacket(lSeralizedArray,  lSeralizedArray.length, lHostAddress, 8889);
+            mSocket.send(lPacket);
+            
+            byte[] lBuffer = new byte[10240];
+            lPacket = new DatagramPacket(lBuffer, lBuffer.length);
+            mSocket.receive(lPacket);
+            
+            lResultStatus = new String(lPacket.getData(), 0, lPacket.getLength());
+            
+            mSocket.close();
+        }  // try
+        catch(Exception pException)
+        {
+            NetworkStatus lStatus = new NetworkStatus();
+            lStatus.setMessage("ERROR", "Error in sending UDP Connection");
+            lResultStatus = lStatus.toString();
+        }  // catch
+        
+        return lResultStatus;
+	}  // String
 }  // class CLISNMPOperations 

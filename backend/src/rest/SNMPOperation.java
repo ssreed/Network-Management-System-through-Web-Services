@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author Kai - Ting (Danil) Ko
+ *
+ */
+
 package rest;
 
 import javax.ws.rs.GET;
@@ -370,6 +376,40 @@ public class SNMPOperation {
         return new JSONWithPadding(lStatus.toString(), pCallback);
     }  // JSONWithPadding snmpWalk
     
+    /**
+     * GET method to perform startsnmpd
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource in JSON objects
+     */
+    @Path("/startsnmpd")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding startsnmpd(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("callback") String pCallback) 
+    {
+        return new JSONWithPadding(CLISNMPOperations.startSNMPD(pHost, pCommunity), pCallback);
+    }  // JSONWithPadding startsnmpd
+    
+    /**
+     * GET method to perform stopsnmpd
+     * @param pHost The address of the host for the element
+     * @param pCommunity The community of the host for the element
+     * @return an HTTP response with content of the updated or created resource in JSON objects
+     */
+    @Path("/stopsnmpd")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding stopsnmpd(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("callback") String pCallback) 
+    {
+        return new JSONWithPadding(CLISNMPOperations.startSNMPD(pHost, pCommunity), pCallback);
+    }  // JSONWithPadding stopsnmpd
+    
     @Path("/createsec2group")
     @GET
     @Produces("application/javascript")
@@ -392,7 +432,6 @@ public class SNMPOperation {
     		@QueryParam("host") String pHost, 
     		@QueryParam("community") String pCommunity,
     		@QueryParam("securityname") String pSecurityName,
-    		@QueryParam("groupname") String pGroupName,
     		@QueryParam("callback") String pCallback) 
     {
         NetworkStatus lStatus = new NetworkStatus();
@@ -411,9 +450,9 @@ public class SNMPOperation {
     		@QueryParam("oid") String pOID,
     		@QueryParam("callback") String pCallback) 
     {
-        NetworkStatus lStatus = new NetworkStatus();
-    	CLISNMPOperations.createView(pCommunity, pHost, pOption, pViewName, pOID, lStatus);
-    	return new JSONWithPadding(lStatus.toString(), pCallback);
+    	return new JSONWithPadding(
+    			CLISNMPOperations.createView(pCommunity, pHost, pOption, pViewName, pOID), 
+    			pCallback);
     }  // void JSONWithPadding createView
     
     @Path("/deleteview")

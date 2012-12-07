@@ -1,3 +1,9 @@
+/**
+ * 
+ * @author Kai - Ting (Danil) Ko
+ *
+ */
+
 package rest;
 
 import java.util.ArrayList;
