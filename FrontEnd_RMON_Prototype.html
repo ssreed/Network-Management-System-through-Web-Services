@@ -3,28 +3,30 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.3/jquery.min.js"></script>
 <script>
 
+
+
     parseResponse = function (data) {
-        $(".node_list").empty();
+        $("#node_list").empty();
         $.each(data, function (pIndex, pElement) {
             var lName = { text: pElement.name };
             if (lName.text == "OID Name") {
                 var lValue = { text: pElement.value };
 
                 var lLI = document.createElement("li");
-                $(".node_list").append(lLI);
+                $("#node_list").append(lLI);
                 $(lLI).append($("<p>", lValue));
             }  // if
             else if (lName.text == "NETSTAT" || lName.text == "STATUS" || lName.text == "TRANSLATE") {
                 var lValue = { text: pElement.value };
 
                 var lLI = document.createElement("li");
-                $(".node_list").append(lLI);
+                $("#node_list").append(lLI);
                 $(lLI).append($("<p>", lValue));
             }  // if
             else {
                 var lValue = { text: pElement.value };
                 var lLI = document.createElement("li");
-                $(".node_list").append(lLI);
+                $("#node_list").append(lLI);
                 $(lLI).append($("<p>", lName));
                 $(lLI).append($("<p>", lValue));
             }  // else
@@ -36,212 +38,228 @@
     }
 
     $(document).ready(function () {
-        alert("JQuery Ready");
+        $('#commands').change(function () {
+            if ($('select#commands').val() === '' || $('select#commands').val() === 'montiorSNMPStatus'
+                || $('select#commands').val() === 'showRmonAlarm' || $('select#commands').val() === 'showRmonEvent') {
+                $('#optionalParameters').html('');
+            }
+
+            if ($('select#commands').val() === 'createsec2group') {
+                $('#optionalParameters').html('');
+                var form =
+                    '<label id="groupnameLabel">Group Name</label>'
+                    + '<input name = "groupname" type = "text" id = "groupname"/>'
+                    + '<label id="securitynameLabel">Security Name</label>'
+                    + '<input name = "securityname" type = "text" id = "securityname"/>';
+
+                $('#optionalParameters').append(form);
+            }
+
+            if ($('select#commands').val() === 'deletesec2group') {
+                $('#optionalParameters').html('');
+                var form =
+                    '<label id="securitynameLabel">Security Name</label>'
+                    + '<input name = "securityname" type = "text" id = "securityname"/>';
+                $('#optionalParameters').append(form);
+            }
+
+            if ($('select#commands').val() === 'createview') {
+                $('#optionalParameters').html('');
+                var form =
+                    '<label id="viewNameLabel">View Name</label>'
+                    + '<input name = "viewname" type = "text" id = "viewname"/>'
+                    + '<label id="oidTreeLabel">OID Tree</label>'
+                    + '<input name = "oid" type = "text" id="oid"/>'
+                    + '<select name="snmpViewOption">'
+                    + '<option value="include">include</option>'
+                    + '<option value="exclude">exclude</option>'
+                    + '</select>';
+                $('#optionalParameters').append(form);
+            }
+            
+            if ($('select#commands').val() === 'deleteview') {
+                $('#optionalParameters').html('');
+                var form =
+                    '<label id="viewNameLabel">View Name</label>'
+                    + '<input name = "viewname" type = "text" id = "viewname"/>'
+                    + '<label id="oidTreeLabel">OID Tree</label>'
+                    + '<input name = "oid" type = "text" id="oid"/>';
+                $('#optionalParameters').append(form);
+            }
+
+            if ($('select#commands').val() === 'createaccess') {
+                $('#optionalParameters').html('');
+                form =
+                    '<label id="groupname">Group Name</label>'
+                    + '<input name = "groupname" type = "text" id = "groupname"/>'
+                    + '<label id="readviewnameLabel">Read View Name</label>'
+                    + '<input name = "readviewname" type = "text" id = "readviewname"/>'
+                    + '<label id="writeviewnameLabel">Write View Name</label>'
+                    + '<input name = "writeviewname" type = "text" id = "writeviewname"/>'
+                    + '<label id="notifyviewnameLabel">Read View Name</label>'
+                    + '<input name = "notifyviewname" type = "text" id = "notifyviewname"/>';
+                $('#optionalParameters').append(form);
+            }
+
+            if ($('select#commands').val() === 'deleteaccess') {
+                $('#optionalParameters').html('');
+                form =
+                    '<label id="groupname">Group Name</label>'
+                    + '<input name = "groupname" type = "text" id = "groupname"/>';
+                $('#optionalParameters').append(form);
+            }
+
+            if ($('select#commands').val() === 'establishContactLocationName') {
+                $('#optionalParameters').html('');
+                form =
+                     '<select name="establishOption" id="establishOption">'
+                    + '<option value="contact">contact</option>'
+                    + '<option value="location">location</option>'
+                    + '<option value="name">name</option>'
+                    + '</select>'
+                    + '<input name = "valueOfEstablishOption" type = "text" id = "valueOfEstablishOption"/>';
+                $('#optionalParameters').append(form);
+            }
+            if ($('select#commands').val() === 'enableSNMPAgent') {
+                $('#optionalParameters').html('');
+                form =
+                     '<select name="enableSNMPOption" id="enableOption">'
+                    + '<option value="enable">enable</option>'
+                    + '<option value="disable">disable</option>'
+                    + '</select>';
+
+                $('#optionalParameters').append(form);
+            }
+            if ($('select#commands').val() === 'enableRmon') {
+                $('#optionalParameters').html('');
+                form =
+                     '<select name="enableRMONOption" id="enableRMONOption">'
+                    + '<option value="native">native</option>'
+                    + '<option value="promisciuos">promisciuos</option>'
+                    + '</select>';
+
+                $('#optionalParameters').append(form);
+            }
+            if ($('select#commands').val() === 'enableRmon') {
+                $('#optionalParameters').html('');
+                form =
+                     '<select name="enableRMONOption" id="enableRMONOption">'
+                    + '<option value="native">native</option>'
+                    + '<option value="promisciuos">promisciuos</option>'
+                    + '</select>';
+
+                $('#optionalParameters').append(form);
+            }
+            if ($('select#commands').val() === 'setRmonQueue') {
+                $('#optionalParameters').html('');
+                form =
+                    '<label id="queueRMONSizeLabel">Queue size</label>'
+                    + '<input name = "queueRMONSize" type = "text" id = "queueRMONSize"/>';
+
+                $('#optionalParameters').append(form);
+            }
+            if ($('select#commands').val() === 'setRmonAlarm') {
+                $('#optionalParameters').html('');
+                form =
+                    '<label id="alarmIndexLabel">index</label>'
+                    + '<input name = "alarmIndex" type = "text" id = "alarmIndex"/>'
+                    + '<label id="alarmIntervalLabel">interval</label>'
+                    + '<input name = "alarmInterval" type = "text" id = "alarmInterval"/>'
+                    + '<label id="alarmVariableLabel">variable</label>'
+                    + '<input name = "alarmVariable" type = "text" id = "alarmVariable"/>'
+                    + '<label id="alarmSampleTypeLabel">sample type</label>'
+                    + '<input name = "alarmSampleType" type = "text" id = "alarmSampleType"/>'
+                    + '<label id="alarmStartupAlarmLabel">start up alarm</label>'
+                    + '<input name = "alarmStartupAlarm" type = "text" id = "alarmStartupAlarm"/>'
+                    + '<label id="alarmRisingThresholdLabel">rising threshold</label>'
+                    + '<input name = "alarmRisingThreshold" type = "text" id = "alarmRisingThreshold"/>'
+                    + '<label id="alarmFallingThresholdLabel">falling threshold</label>'
+                    + '<input name = "alarmFallingThreshold" type = "text" id = "alarmFallingThreshold"/>'
+                    + '<label id="alarmRisingEventIndexLabel">rising event index</label>'
+                    + '<input name = "alarmRisingEventIndex" type = "text" id = "alarmRisingEventIndex"/>'
+                    + '<label id="alarmFallingEventIndexLabel">rising event index</label>'
+                    + '<input name = "alarmFallingEventIndex" type = "text" id = "alarmFallingEventIndex"/>'
+                    + '<label id="alarmStatusLabel">status</label>'
+                    + '<input name = "alarmStatus" type = "text" id = "alarmStatus"/>';
+
+
+
+                $('#optionalParameters').append(form);
+            }
+            if ($('select#commands').val() === 'setRmonEvent') {
+                $('#optionalParameters').html('');
+                form =
+                    '<label id="eventIndexLabel">index</label>'
+                    + '<input name = "eventIndex" type = "text" id = "eventIndex"/>'
+                    + '<label id="eventDescriptionLabel">description</label>'
+                    + '<input name = "eventDescription" type = "text" id = "eventDescription"/>'
+                    + '<label id="eventTypeLabel">type</label>'
+                    + '<input name = "eventType" type = "text" id = "eventType"/>'
+                    + '<label id="eventCommunityLabel">community</label>'
+                    + '<input name = "eventCommunity" type = "text" id = "eventCommunity"/>'
+                    + '<label id="eventLastTimeSentLabel">last time sent</label>'
+                    + '<input name = "eventLastTimeSent" type = "text" id = "eventLastTimeSent"/>'
+                    + '<label id="eventOwnerLabel">owner</label>'
+                    + '<input name = "eventOwner" type = "text" id = "eventOwner"/>'
+                    + '<label id="eventStatusLabel">status</label>'
+                    + '<input name = "eventStatus" type = "text" id = "eventStatus"/>';
+
+                $('#optionalParameters').append(form);
+            }
+        });
+
+        $('#input_form').submit(function () {
+            var lURL = "http://" + $('#txtServerHost').val() + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + $('select#commands').val() + "?" + $(this).serialize();
+            var result = $('#result').html(lURL);
+            $.ajax({
+                cache: true,
+                url: lURL,
+                data: {},
+                datatype: "GET",
+                contentType: "application/javascript",
+                dataType: "jsonp",
+                success: parseResponse,
+                error: ajaxCallFailed
+            });  // ajax
+
+            return false;
+        });
     });
-
-    function performSNMP() {
-
-        var lCommunity = document.getElementById("txtCommunity").value;
-        var lHost = document.getElementById("txtHost").value;
-        var lOID = document.getElementById("txtOID").value;
-        var lOperation = document.getElementById("selectOperation").value;
-        var lURL;
-        var lServerHost = document.getElementById("txtServerHost").value;
-        if (lOperation == "set") {
-            var lValue = prompt("Please enter the new value for the entry", "");
-            if (lValue != null && lValue != "") {
-                lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID + "&value=" + lValue;
-            }  // if
-            else if (lValue == "") {
-                alert("The operation is canceled due to an invalid input. The input cannot be empty.");
-                return;
-            }  // else
-            else {
-                alert("The operation is canceled by the user");
-                return;
-            }  // else
-        }   // if
-        else if (lOperation == "test") {
-            var lResultValue = "";
-            do {
-                var lValue = prompt("Please enter the test variable", "");
-                if (lValue != null && lValue != "") {
-                    lResultValue = lResultValue + lValue + ";";             
-                }  // if
-                else {
-                    break;
-                }  // else
-            } while (true);
-
-            if (lResultValue == "") {
-                alert("The operation is canceled by the user");
-                return;
-            }  // if
-
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oids=" + lResultValue;
-        }   // if
-        else if (lOperation == "translate") {
-            var lResultValue = "";
-            do {
-                var lValue = prompt("Please enter the translate numeric oid", "");
-                if (lValue != null && lValue != "") {
-                    lResultValue = lResultValue + lValue + ";";             
-                }  // if
-                else {
-                    break;
-                }  // else
-            } while (true);
-
-            if (lResultValue == "") {
-                alert("The operation is canceled by the user");
-                return;
-            }  // if
-
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?oids=" + lResultValue;
-        }   // if
-        else if (lOperation == "status" || lOperation == "netstat") {
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity;
-        }  // else
-        else {
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID;
-        }  // else
-        $.ajax({
-            cache: true,
-            url: lURL,
-            data: {},
-            datatype: "GET",
-            contentType: "application/javascript",
-            dataType: "jsonp",
-            success: parseResponse,
-            error: ajaxCallFailed
-        });  // ajax
-    }  // function performSNMP
 </script>
 </head>
 <body>
-
 <div id="input">
-	 <form id="input_form">
-		<p>Server Host: </p>
+	 <form id="input_form" >
+		<label id="serverhostlabel">Server Host: </label>
 		<input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
 		<label id="hostlabel">Host</label>
-		<input type="text" name="host" id="host" placeholder="Host IP goes here" value = "130.65.111.60" autofocus required> 
-		<!--<label id="portlabel">Port</label>
-		<input type="text" name="port" id="port" placeholder="Port number">  -->
+		<input type="text" name="host" id="host" placeholder="Host IP goes here" value = "" required> 
 		<label id="communitylabel">Community</label>
 		<input type="password" name="community" id="community" placeholder="Community" value = "public">
-		<label id="oidlabel">OID</label>
-		<input type="text" name="oid" id="oid" placeholder="Object ID number"> 
-		<label id="commandlabel">Commands</label>
-		
-		<input type="submit" value="Submit" name="submit" />
+         <div id="optionalParameters"></div>
+		<input type="submit" value="Submit" name="submit"/>
 	</form>
-	<p id="result"></p>
-	<button id = "send_button">Perform</button>
-	<input type="submit" value="Show all" name="showAll" id="showAll"/>
+            <label id="commandlabel">Commands</label>
+                <select name="commands" id = "commands">
+                    <option value="">Choose a command</option>
+                    <option value="createsec2group">create group</option>
+                    <option value="deletesec2group">delete group</option>
+                    <option value="createview">create view</option>
+                    <option value="deleteview">delete view</option>
+                    <option value="createaccess">create access control</option>
+                    <option value="deleteaccess">delete access control</option>
+					<option value="establishContactLocationName">establish the contact, location, name</option>
+					<option value="montiorsnmpstatus">monitor SNMP status</option>
+					<option value="enablesnmpagent">enable the snmp agent</option>
+					<option value="enablermon">enable RMON</option>
+                    <option value="showrmonalarm">show RMON alarm</option>
+                    <option value="showrmonevent">show RMON event</option>
+					<option value="setrmonqueue">set RMON queue</option>
+					<option value="setrmonalarm">set RMON alarm</option>
+					<option value="setrmonevent">set RMON event</option>
+                </select>
 </div>
-<p>Server Host: </p>
-<input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
-<p>Host: </p>
-<input type = "text" id = "txtHost" value = "130.65.111.60"/>
-<p>Community: </p>
-<input type = "text" id = "txtCommunity" value = "public"/>
-<p>
-RMON Alarm URI String
-</p>
-<p>
-http://localhost:8080/CS158B_WEBSERVICES/rest/snmpoperation/setrmonalarm
-?alarmindex=""
-&alarminterval=""
-&alarmvariable=""
-&alarmsampletype=""
-&alarmvalue=""
-&alarmstartupalarm=""
-&alarmrisingthreshold=""
-&alarmfallingthreshold=""
-%alarmrisingeventindex=""
-%alarmfallingeventindex=""
-%alarmstatus=""
-</p>
-<p>
-RMON Alarm Queue Size URI String
-</p>
-<p>
-http://localhost:8080/CS158B_WEBSERVICES/rest/snmpoperation/setrmonalarmqueue
-?alarmqueuesize=""
-</p>
-<p>
-RMON Event URI String
-</p>
-<p>
-http://localhost:8080/CS158B_WEBSERVICES/rest/snmpoperation/setrmonevent
-?index
-&description=""
-&type=""
-&community=""
-&eventlasttimesent=""
-&evebtowner=""
-&status=""
-</p>
-<p>
-RMON Event Queue Size URI String
-</p>
-<p>
-http://localhost:8080/CS158B_WEBSERVICES/rest/snmpoperation/setrmoneventqueue
-?eventqueuesize=""
-</p>
-<!-- <button onClick = "performSNMP()" id = "send_button">Perform</button>-->
-<!-- Div content is dynamic-->
-<div data-role = "content" class = "nodesContent">
-<tr>
-<td>
-RMON Alarm Table Reference: http://www.juniper.net/techpubs/en_US/junos11.3/topics/concept/rmon-alarms-overview-junos-nm.html
-</td>
-</tr>
-<tr>
-<td>
-<table border = 1>
-<tr>
-<td title = "The index value for alarmTable that identifies a specific entry">Index</td>
-<td title = "The interval, in seconds, over which data is sampled and compared with the rising and falling thresholds">Interval</td>
-<td title = "The MIB variable that is monitored by the alarm entry">Variable</td>
-<td title = "The method of sampling the selected variable and calculating the value to be compared against the thresholds">SampleType</td>
-<td title = "The value of the variable during the last sampling period. This value is compared with the rising and falling thresholds">Value</td>
-<td title = "The alarm sent when the entry is first activated.">Startup Alarm</td>
-<td title = "The upper threshold for the sampled variable">Rising Threshold</td>
-<td title = "The lower threshold for the sampled variable">Falling Threshold</td>
-<td title = "The eventTable entry used when a rising threshold is crossed">Rising Event Index</td>
-<td title = "The eventTable entry used when a falling threshold is crossed">Falling Event Index</td>
-<td title = "Method for adding and removing entries from the table. It can also be used to change the state of an entry to allow modifications">Status</td>
-</tr>
-</table>
-<tr>
-<td>
-RMON Event Table Reference: http://www.juniper.net/techpubs/en_US/junos11.3/topics/concept/rmon-events-junos-nm.html
-</td>
-</tr>
-</td>
-</tr>
-<tr>
-<td>
-<table border = 1>
-<tr>
-<td title = "An index that uniquely identifies an entry in eventTable. Each entry defines one event that is generated when the appropriate conditions occur.">Index</td>
-<td title = "A comment describing the event entry">Description</td>
-<td title = "Type of notification that the probe makes about this event">Type</td>
-<td title = "Trap group used if an SNMP trap is to be sent. If eventCommunity is not configured, a trap is sent to each trap group configured with the rmon-alarm category.">Community</td>
-<td title = "Value of sysUpTime when this event entry last generated an event.">Last Time Sent</td>
-<td title = "Any text string specified by the creating management application or the command-line interface (CLI). Typically, it is used to identify a network manager (or application) and can be used for fine access control between participating management applications.">Owner</td>
-<td title = "Status of this event entry.">Status</td>
-</tr>
-</table>
-</td>
-</tr>
-<ul class = "node_list">
-</ul>
-</div>
-</span>
-</script>
-</form>
+<div id="result"></div>
+<div id="node_list"></div>
 </body>
 </html>
