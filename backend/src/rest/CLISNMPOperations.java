@@ -169,7 +169,7 @@ public class CLISNMPOperations
         catch(Exception pException)
         {
             NetworkStatus lStatus = new NetworkStatus();
-            lStatus.setMessage("ERROR", "Error in sending UDP Connection");
+            lStatus.setMessage("ERROR", pException.toString());
             lResultStatus = lStatus.toString();
         }  // catch
         

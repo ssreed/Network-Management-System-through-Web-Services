@@ -7,7 +7,11 @@
 
 package rest;
 
-public class SNMPCommandObject {
+import java.io.Serializable;
+
+public class SNMPCommandObject implements Serializable 
+{
+	private static final long serialVersionUID = 3309788420118205529L;
 	private String mCommunity; 
 	private String mAddress;
 	private String mOption; 
