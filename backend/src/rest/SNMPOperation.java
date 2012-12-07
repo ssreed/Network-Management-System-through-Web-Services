@@ -21,28 +21,32 @@ public class SNMPOperation {
     /**
      * Default constructor. 
      */
-    public SNMPOperation() {
-        // TODO Auto-generated constructor stub
-    }
+    public SNMPOperation() 
+    {
+    }  // Constructor
     
     /**
      * Retrieves representation of an instance of NetworkDevice
-     * @return an instance of String
+     * @return an HTTP response with content of the updated or created resource in JSON object
      */
+    @Path("/api")
     @GET
     @Produces("text/json")
-    public String getJson() {
-
-        String lURI = "http://localhost:8080/CS158B_WEBSERVICES/rest/networkdevice/snmpwalk/{host}/{community}";
+    public JSONWithPadding getJson(@QueryParam("callback") String pCallback) 
+    {
+    	NetworkStatus lStatus = new NetworkStatus();
         
-        return "SNMPWALK URI: " + lURI +"}";
+    	lStatus.setMessage("API", "Under Construction");
+        
+        return new JSONWithPadding(lStatus.toString(), pCallback);
     }
 
     /**
      * GET method to perform snmpget
      * @param pHost The address of the host for the element
      * @param pCommunity The community of the host for the element
-     * @return an HTTP response with content of the updated or created resource.
+     * @param pCallBack The callback string required to pass back Javascript calling object
+     * @return an HTTP response with content of the updated or created resource in JSON object
      */
     @Path("/status")
     @GET
@@ -60,9 +64,9 @@ public class SNMPOperation {
 
     /**
      * GET method to perform snmptranslate
+     * @param pOIDs The OIDs that will be snmptranlate will be performed with
      * @param pHost The address of the host for the element
-     * @param pCommunity The community of the host for the element
-     * @return an HTTP response with content of the updated or created resource.
+     * @return an HTTP response with content of the updated or created resource in JSON object
      */
     @Path("/translate")
     @GET
@@ -90,10 +94,11 @@ public class SNMPOperation {
     }  // snmptranslate
     
     /**
-     * GET method to perform snmpget
+     * GET method to perform snmpnetstatus
      * @param pHost The address of the host for the element
      * @param pCommunity The community of the host for the element
-     * @return an HTTP response with content of the updated or created resource.
+     * @return an HTTP response with content of the updated or created resource 
+     *         in JSON object
      */
     @Path("/netstat")
     @GET
@@ -110,10 +115,10 @@ public class SNMPOperation {
     }
     
     /**
-     * GET method to perform snmpget
+     * GET method to perform snmpset
      * @param pHost The address of the host for the element
      * @param pCommunity The community of the host for the element
-     * @return an HTTP response with content of the updated or created resource.
+     * @return an HTTP response with content of the updated or created resource in JSON object
      */
     @Path("/set")
     @GET
@@ -197,7 +202,8 @@ public class SNMPOperation {
      * test method to perform snmptest
      * @param pHost The address of the host for the element
      * @param pCommunity The community of the host for the element
-     * @return an HTTP response with content of the updated or created resource.
+     * @param pOIDs The OIDs that snmptest will be performed with
+     * @return an HTTP response with content of the updated or created resource in JSON objects
      */
     @Path("/test")
     @GET
@@ -216,7 +222,6 @@ public class SNMPOperation {
         			InetAddress.getByName(pHost);
         	
         	int lVersion = 0;
-        	System.out.println("========================================OIDS " + pOIDs);
         	
         	SNMPv1CommunicationInterface lInterface = new SNMPv1CommunicationInterface(lVersion, lHostAddress, pCommunity);
         	
@@ -273,11 +278,11 @@ public class SNMPOperation {
         return new JSONWithPadding(lStatus.toString(), pCallback);
     }  // JSONWithPadding snmptest
     
-    
     /**
      * GET method to perform snmpget
      * @param pHost The address of the host for the element
      * @param pCommunity The community of the host for the element
+     * @param pOID The OID that snmpget with be performed with
      * @return an HTTP response with content of the updated or created resource.
      */
     @Path("/get")
@@ -345,7 +350,8 @@ public class SNMPOperation {
      * GET method to perform snmpwalk
      * @param pHost The address of the host for the element
      * @param pCommunity The community of the host for the element
-     * @return an HTTP response with content of the updated or created resource.
+     * @param pOID The OID that the snmpwalk will be start with
+     * @return an HTTP response with content of the updated or created resource in JSON objects
      */
     @Path("/walk")
     @GET
@@ -429,5 +435,4 @@ public class SNMPOperation {
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
         }  // JSONWithPadding snmpWalk
-
-}
+}  // class SNMPOperation
