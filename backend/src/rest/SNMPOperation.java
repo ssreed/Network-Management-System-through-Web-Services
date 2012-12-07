@@ -441,7 +441,6 @@ public class SNMPOperation {
     		@QueryParam("readviewname") String pReadViewName,
     		@QueryParam("writeviewname") String pWriteViewName,
     		@QueryParam("notifyviewname") String pNotifyViewName,
-    		@QueryParam("oid") String pOID,
     		@QueryParam("callback") String pCallback) 
     {
         NetworkStatus lStatus = new NetworkStatus();

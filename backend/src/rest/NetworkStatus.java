@@ -15,7 +15,7 @@ public class NetworkStatus {
     public void setMessage(String pMessageName, String pMessageValue)
     {
     	mMessageNames.add(pMessageName);
-    	mMessageValues.add(pMessageValue);
+    	mMessageValues.add(pMessageValue.replaceAll("\\\"", "\\\\\""));
     }  // public void setMessage
     
     @Override
