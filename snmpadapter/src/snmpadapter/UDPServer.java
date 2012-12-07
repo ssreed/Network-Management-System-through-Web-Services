@@ -81,7 +81,7 @@ public class UDPServer extends Thread
     {
     	if(pObject.getCommand().equalsIgnoreCase("createView"))
     	{
-    		CLISNMPOperations.createView(pObject.getCommunity(), pObject.getAddress(), pObject.getOption(), 
+    		CLISNMPOperations.createView(pObject.getCommunity(), pObject.getOption(), 
     				pObject.getViewName(), pObject.getOID(), pStatus);
     	}  // if
     	else if(pObject.getCommand().equalsIgnoreCase("stopSNMPD"))

@@ -13,14 +13,14 @@ import java.io.InputStreamReader;
 
 public class CLISNMPOperations 
 {
-	static void createView(String pCommunity, String pAddress, String pOption, String pViewName, String pOID, NetworkStatus pStatus)
+	static void createView(String pCommunity, String pOption, String pViewName, String pOID, NetworkStatus pStatus)
 	{	
 		String lOption = "";
 		if(pOption.equalsIgnoreCase("excluded"))
 		{
 			lOption = "-Ce";
 		}  // if
-		getCommandLineInput(1, "CREATEVIEW" , null, "snmpvacm -v1 -c " + pCommunity + " " + pAddress + " createView " + lOption + " " + pViewName + " " + pOID , pStatus);
+		getCommandLineInput(1, "CREATEVIEW" , null, "snmpvacm -v1 -c " + pCommunity + " localhost " + lOption +  "createView " + pViewName + " " + pOID , pStatus);
 	}  // void createView
 
 	static void stopSNMPD(String pPassword, NetworkStatus pStatus)

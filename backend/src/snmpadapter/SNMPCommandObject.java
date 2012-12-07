@@ -16,7 +16,6 @@ public class SNMPCommandObject implements Serializable
 	 */
 	private static final long serialVersionUID = 1L;
 	private String mCommunity; 
-	private String mAddress;
 	private String mOption; 
 	private String mViewName;
 	private String mOID;
@@ -39,14 +38,6 @@ public class SNMPCommandObject implements Serializable
 	public void setCommunity(String pCommunity) 
 	{
 		mCommunity = pCommunity;
-	}
-	public String getAddress() 
-	{
-		return mAddress;
-	}
-	public void setAddress(String pAddress) 
-	{
-		mAddress = pAddress;
 	}
 	public String getOption() 
 	{
