@@ -20,7 +20,7 @@ public class CLISNMPOperations
 		{
 			lOption = "-Ce";
 		}  // if
-		getCommandLineInput(1, "CREATEVIEW" , null, "snmpvacm -v1 -c " + pCommunity + " localhost " + lOption +  "createView " + pViewName + " " + pOID , pStatus);
+		getCommandLineInput(1, "CREATEVIEW" , null, "snmpvacm -v1 -c " + pCommunity + " localhost " + lOption +  " createView " + pViewName + " " + pOID , pStatus);
 	}  // void createView
 
 	static void stopSNMPD(String pPassword, NetworkStatus pStatus)
