@@ -41,7 +41,7 @@ $(document).ready(function(){
         }
     });
 
-    /* create URL */
+    /* create URL. */
     $('#input_form').submit(function() {
       var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
       var result = $('#result').html(querystring);

@@ -136,7 +136,7 @@ $(document).ready(function(){
 		//console.log(oidName);
     });
 	
-	// Click Submit
+	// Click Submit.
 	$('#send_button').click(function (e) {
 		performSNMP();
 	});
