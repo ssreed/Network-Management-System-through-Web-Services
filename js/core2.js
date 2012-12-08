@@ -92,12 +92,61 @@ $(document).ready(function(){
         {
             $('#optionalParameters').html('');
             form = 
-                '<label id="queueSizeLabel">Queue size</label>' 
-                + '<input name = "queueSize" type = "text" id = "queueSize"/>'
+                '<label id="queueRMONSizeLabel">Queue size</label>' 
+                + '<input name = "queueRMONSize" type = "text" id = "queueRMONSize"/>';
                 
             $('#optionalParameters').append(form); 
         }
-		
+		if($('select#commands').val() === 'setRmonAlarm')
+        {
+            $('#optionalParameters').html('');
+            form = 
+                '<label id="alarmIndexLabel">index</label>' 
+                + '<input name = "alarmIndex" type = "text" id = "alarmIndex"/>'
+				+ '<label id="alarmIntervalLabel">interval</label>'
+                + '<input name = "alarmInterval" type = "text" id = "alarmInterval"/>'
+				+ '<label id="alarmVariableLabel">variable</label>'
+                + '<input name = "alarmVariable" type = "text" id = "alarmVariable"/>'
+				+ '<label id="alarmSampleTypeLabel">sample type</label>'
+                + '<input name = "alarmSampleType" type = "text" id = "alarmSampleType"/>'
+				+ '<label id="alarmStartupAlarmLabel">start up alarm</label>'
+                + '<input name = "alarmStartupAlarm" type = "text" id = "alarmStartupAlarm"/>'
+				+ '<label id="alarmRisingThresholdLabel">rising threshold</label>'
+                + '<input name = "alarmRisingThreshold" type = "text" id = "alarmRisingThreshold"/>'
+				+ '<label id="alarmFallingThresholdLabel">falling threshold</label>'
+                + '<input name = "alarmFallingThreshold" type = "text" id = "alarmFallingThreshold"/>'
+				+ '<label id="alarmRisingEventIndexLabel">rising event index</label>'
+                + '<input name = "alarmRisingEventIndex" type = "text" id = "alarmRisingEventIndex"/>'
+				+ '<label id="alarmFallingEventIndexLabel">rising event index</label>'
+                + '<input name = "alarmFallingEventIndex" type = "text" id = "alarmFallingEventIndex"/>'
+				+ '<label id="alarmStatusLabel">status</label>'
+                + '<input name = "alarmStatus" type = "text" id = "alarmStatus"/>';
+				
+				
+                
+            $('#optionalParameters').append(form); 
+        }
+		if($('select#commands').val() === 'setRmonEvent')
+        {
+            $('#optionalParameters').html('');
+            form = 
+                '<label id="eventIndexLabel">index</label>' 
+                + '<input name = "eventIndex" type = "text" id = "eventIndex"/>'
+				+ '<label id="eventDescriptionLabel">description</label>'
+                + '<input name = "eventDescription" type = "text" id = "eventDescription"/>'
+				+ '<label id="eventTypeLabel">type</label>'
+                + '<input name = "eventType" type = "text" id = "eventType"/>'
+				+ '<label id="eventCommunityLabel">community</label>'
+                + '<input name = "eventCommunity" type = "text" id = "eventCommunity"/>'
+				+ '<label id="eventLastTimeSentLabel">last time sent</label>'
+                + '<input name = "eventLastTimeSent" type = "text" id = "eventLastTimeSent"/>'
+				+ '<label id="eventOwnerLabel">owner</label>'
+                + '<input name = "eventOwner" type = "text" id = "eventOwner"/>'
+				+ '<label id="eventStatusLabel">status</label>'
+                + '<input name = "eventStatus" type = "text" id = "eventStatus"/>';
+                
+            $('#optionalParameters').append(form); 
+        }
     });
 	
     /* create URL. */
