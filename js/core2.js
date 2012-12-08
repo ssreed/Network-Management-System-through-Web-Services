@@ -6,8 +6,12 @@ $(document).ready(function(){
         //var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
         //var result = $('#result').html(querystring);
     });
-
+	
     $('#commands').change(function() {
+		if($('select#commands').val() === '')
+		{
+			$('#optionalParameters').html('');
+		}
         if($('select#commands').val() === 'createSNMPView')
         {
             $('#optionalParameters').html('');
@@ -39,8 +43,21 @@ $(document).ready(function(){
                 + '<input name = "accessList" type = "text" id = "accessList"/>';
             $('#optionalParameters').append(form); 
         }
+		 if($('select#commands').val() === 'establishContactLocationName')
+        {
+            $('#optionalParameters').html('');
+            form = 
+                 '<select name="establishOption" id="establishOption">'
+                + '<option value="contact">contact</option>'
+                + '<option value="location">location</option>'
+				+ '<option value="name">name</option>'
+                + '</select>'
+                + '<input name = "valueOfEstablishOption" type = "text" id = "valueOfEstablishOption"/>';
+            $('#optionalParameters').append(form); 
+        }
+		
     });
-
+	
     /* create URL. */
     $('#input_form').submit(function() {
       var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
@@ -52,6 +69,29 @@ $(document).ready(function(){
         alert("Error:" + pJQXHR + " Status:" + pTextStatus);
     };
     
+	
+	/*
+	// create establishOption
+	$('#establishOption').change(function(){
+		if($('select#establishOption').val() == 'contact')
+		{	
+			var form = '<input name = "contact" type = "text" id = "contact"/>';
+			$('#establishOption').append(form);
+		}
+		if($('select#establishOption').val() == 'location')
+		{
+			var form = '<input name = "location" type = "text" id = "location"/>';
+			$('#establishOption').append(form);
+		}
+		if($('select#establishOption').val() == 'name')
+		{
+			var form = '<input name = "name" type = "text" id = "name"/>';
+			$('#establishOption').append(form);
+		}
+	});
+	*/
+	
+	
     /*Danil's functions*/
    parseResponse = function (data) {
         $(".info").empty();

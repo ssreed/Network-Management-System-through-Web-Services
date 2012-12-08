@@ -23,13 +23,18 @@
                 <input type="password" name="community" id="community" placeholder="Community">
                 <label id="commandlabel">Commands</label>
                 <select name="commands" id = "commands">
-                    <option>Choose a command</option>
+                    <option value="">Choose a command</option>
                     <option value="createSNMPView">create and modify SNMP view</option>
                     <option value="createAccessControl">create and modify access control</option>
-                    <option value="showRmon">show rmon</option>
-                    <option>show rmon alarm</option>
-                    <option>show rmon statistics</option>
-                    <option>delete rmon alarm</option>
+					<option value="establishContactLocationName">establish the contact, location, name</option>
+					<option value="montiorSNMPStatus">monitor SNMP status</option>
+					<option value="enableSNMPAgent">enable the snmp agent</option>
+					<option value="enableRmon">enable RMON</option>
+                    <option value="showRmonAlarm">show RMON alarm</option>
+                    <option value="showRmonEvent">show RMON event</option>
+					<option value="setRmonQueue">set RMON queue</option>
+					<option value="setRmonAlarm">set RMON alarm</option>
+					<option value="setRmonQueue">set RMON event</option>
                 </select>
                 <!--<input type="submit" value="Submitfd" name="submit" />-->
                 <button id = "send_button">Submit</button>  
