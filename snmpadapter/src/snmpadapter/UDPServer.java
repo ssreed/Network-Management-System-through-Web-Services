@@ -90,8 +90,10 @@ public class UDPServer extends Thread
     		{
     			CLISNMPOperations.stopSNMPD(pStatus);
     		}  // if
-    		
-    		pStatus.setMessage("ERROR", "Invalid Password");
+    		else
+    		{
+    			pStatus.setMessage("ERROR", "Invalid Password");
+    		}  // else
     	}  // else if
     	else if(pObject.getCommand().equalsIgnoreCase("startSNMPD"))
     	{
@@ -99,8 +101,10 @@ public class UDPServer extends Thread
     		{
     			CLISNMPOperations.startSNMPD(pStatus);
     		}  // if
-    		
-    		pStatus.setMessage("ERROR", "Invalid Password");
+    		else
+    		{
+    			pStatus.setMessage("ERROR", "Invalid Password");
+    		}  // else
     	}  // else if
     	else
     	{
