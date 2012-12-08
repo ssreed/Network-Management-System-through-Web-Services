@@ -55,7 +55,17 @@ $(document).ready(function(){
                 + '<input name = "valueOfEstablishOption" type = "text" id = "valueOfEstablishOption"/>';
             $('#optionalParameters').append(form); 
         }
-		
+		 if($('select#commands').val() === 'enableSNMPAgent')
+        {
+            $('#optionalParameters').html('');
+            form = 
+                 '<select name="enableOption" id="enableOption">'
+                + '<option value="enable">enable</option>'
+                + '<option value="disable">disable</option>'
+                + '</select>';
+                
+            $('#optionalParameters').append(form); 
+        }
     });
 	
     /* create URL. */
