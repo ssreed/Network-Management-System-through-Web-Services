@@ -8,7 +8,8 @@ $(document).ready(function(){
     });
 	
     $('#commands').change(function() {
-		if($('select#commands').val() === '')
+		if($('select#commands').val() === '' || $('select#commands').val() === 'montiorSNMPStatus' 
+			|| $('select#commands').val() === 'showRmonAlarm' || $('select#commands').val() === 'showRmonEvent')
 		{
 			$('#optionalParameters').html('');
 		}
