@@ -43,7 +43,7 @@ $(document).ready(function(){
                 + '<input name = "accessList" type = "text" id = "accessList"/>';
             $('#optionalParameters').append(form); 
         }
-		 if($('select#commands').val() === 'establishContactLocationName')
+		if($('select#commands').val() === 'establishContactLocationName')
         {
             $('#optionalParameters').html('');
             form = 
@@ -55,7 +55,7 @@ $(document).ready(function(){
                 + '<input name = "valueOfEstablishOption" type = "text" id = "valueOfEstablishOption"/>';
             $('#optionalParameters').append(form); 
         }
-		 if($('select#commands').val() === 'enableSNMPAgent')
+		if($('select#commands').val() === 'enableSNMPAgent')
         {
             $('#optionalParameters').html('');
             form = 
@@ -66,7 +66,7 @@ $(document).ready(function(){
                 
             $('#optionalParameters').append(form); 
         }
-		 if($('select#commands').val() === 'enableRmon')
+		if($('select#commands').val() === 'enableRmon')
         {
             $('#optionalParameters').html('');
             form = 
@@ -77,6 +77,27 @@ $(document).ready(function(){
                 
             $('#optionalParameters').append(form); 
         }
+		if($('select#commands').val() === 'enableRmon')
+        {
+            $('#optionalParameters').html('');
+            form = 
+                 '<select name="enableRMONOption" id="enableRMONOption">'
+                + '<option value="native">native</option>'
+                + '<option value="promisciuos">promisciuos</option>'
+                + '</select>';
+                
+            $('#optionalParameters').append(form); 
+        }
+		if($('select#commands').val() === 'setRmonQueue')
+        {
+            $('#optionalParameters').html('');
+            form = 
+                '<label id="queueSizeLabel">Queue size</label>' 
+                + '<input name = "queueSize" type = "text" id = "queueSize"/>'
+                
+            $('#optionalParameters').append(form); 
+        }
+		
     });
 	
     /* create URL. */
