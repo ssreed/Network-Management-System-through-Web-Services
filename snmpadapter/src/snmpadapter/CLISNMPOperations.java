@@ -20,35 +20,29 @@ public class CLISNMPOperations
 		{
 			lOption = "-Ce";
 		}  // if
-		getCommandLineInput(1, "CREATEVIEW" , null, "snmpvacm -v1 -c " + pCommunity + " localhost " + lOption +  " createView " + pViewName + " " + pOID , pStatus);
+		getCommandLineInput("CREATEVIEW", "snmpvacm -v1 -c " + pCommunity + " localhost " + lOption +  " createView " + pViewName + " " + pOID , pStatus);
 	}  // void createView
 
-	static void stopSNMPD(String pPassword, NetworkStatus pStatus)
+	static void stopSNMPD(NetworkStatus pStatus)
 	{	
-		getCommandLineInput(2, "STOPSNMPD" , pPassword, "service snmpd stop", pStatus);
-		getCommandLineInput(2, "STOPSNMPD" , pPassword, "service snmpd status", pStatus);
+		getCommandLineInput("STOPSNMPD","sudo service snmpd stop", pStatus);
+		getCommandLineInput("STOPSNMPD", "sudo service snmpd status", pStatus);
 	}  // void stopSNMPD
 
-	static void startSNMPD(String pPassword, NetworkStatus pStatus)
+	static void startSNMPD(NetworkStatus pStatus)
 	{	
-		getCommandLineInput(2,"STARTSNMPD" , pPassword, "service snmpd start", pStatus);
-		getCommandLineInput(2,"STARTSNMPD" , pPassword, "service snmpd status", pStatus);
+		getCommandLineInput("STARTSNMPD", "sudo service snmpd start", pStatus);
+		getCommandLineInput("STARTSNMPD", "sudo service snmpd status", pStatus);
 	}  // void startSNMPD
 
 	
-	static void getCommandLineInput(int pState, String pTag, String pPassword, String pCommand, NetworkStatus pStatus)
+	static void getCommandLineInput( String pTag, String pCommand, NetworkStatus pStatus)
 	{
 		try {
 			Process lRuntimeProcess;
-			if(pState == 1)
-			{
-				lRuntimeProcess = Runtime.getRuntime().exec(pCommand);
-			}  // if
-			else
-			{
-				String [] lCommands = {"/bash/bin", "-c", "echo" + pPassword + "| sudo -S " + pCommand};
-				lRuntimeProcess = Runtime.getRuntime().exec(lCommands);
-			}  // else
+			
+			lRuntimeProcess = Runtime.getRuntime().exec(pCommand);
+
 			BufferedReader lInputReader = new BufferedReader(new InputStreamReader(lRuntimeProcess.getInputStream()));
 			BufferedReader lErrorReader = new BufferedReader(new InputStreamReader(lRuntimeProcess.getErrorStream()));
 		

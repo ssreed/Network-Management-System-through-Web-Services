@@ -86,11 +86,21 @@ public class UDPServer extends Thread
     	}  // if
     	else if(pObject.getCommand().equalsIgnoreCase("stopSNMPD"))
     	{
-    		CLISNMPOperations.stopSNMPD(pObject.getCommunity(), pStatus);
+    		if(pObject.getCommunity().equalsIgnoreCase("linux"))
+    		{
+    			CLISNMPOperations.stopSNMPD(pStatus);
+    		}  // if
+    		
+    		pStatus.setMessage("ERROR", "Invalid Password");
     	}  // else if
     	else if(pObject.getCommand().equalsIgnoreCase("startSNMPD"))
     	{
-    		CLISNMPOperations.startSNMPD(pObject.getCommunity(), pStatus);
+    		if(pObject.getCommunity().equalsIgnoreCase("linux"))
+    		{
+    			CLISNMPOperations.startSNMPD(pStatus);
+    		}  // if
+    		
+    		pStatus.setMessage("ERROR", "Invalid Password");
     	}  // else if
     	else
     	{

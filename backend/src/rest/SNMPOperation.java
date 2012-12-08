@@ -423,7 +423,7 @@ public class SNMPOperation {
         NetworkStatus lStatus = new NetworkStatus();
     	CLISNMPOperations.createSec2Group(pCommunity, pHost, pSecurityName, pGroupName, lStatus);
     	return new JSONWithPadding(lStatus.toString(), pCallback);
-    }  // void JSONWithPadding createSec2Group
+    }  // JSONWithPadding createSec2Group
 
     @Path("/deletesec2group")
     @GET
@@ -437,7 +437,7 @@ public class SNMPOperation {
         NetworkStatus lStatus = new NetworkStatus();
     	CLISNMPOperations.deleteSec2Group(pCommunity, pHost, pSecurityName, lStatus);
     	return new JSONWithPadding(lStatus.toString(), pCallback);
-    }  // void JSONWithPadding deleteSec2Group
+    }  // JSONWithPadding deleteSec2Group
     
     @Path("/createview")
     @GET
@@ -453,7 +453,7 @@ public class SNMPOperation {
     	return new JSONWithPadding(
     			CLISNMPOperations.createView(pCommunity, pHost, pOption, pViewName, pOID), 
     			pCallback);
-    }  // void JSONWithPadding createView
+    }  // JSONWithPadding createView
     
     @Path("/deleteview")
     @GET
@@ -468,7 +468,7 @@ public class SNMPOperation {
         NetworkStatus lStatus = new NetworkStatus();
     	CLISNMPOperations.deleteView(pCommunity, pHost, pViewName, pOID, lStatus);
     	return new JSONWithPadding(lStatus.toString(), pCallback);
-    }  // void JSONWithPadding deleteView
+    }  // JSONWithPadding deleteView
     
     @Path("/createaccess")
     @GET
@@ -485,7 +485,7 @@ public class SNMPOperation {
         NetworkStatus lStatus = new NetworkStatus();
     	CLISNMPOperations.createAccess(pCommunity, pHost, pGroupName, pReadViewName, pWriteViewName, pNotifyViewName, lStatus);
     	return new JSONWithPadding(lStatus.toString(), pCallback);
-    }  // void JSONWithPadding createAccess
+    }  // JSONWithPadding createAccess
     
     @Path("/deleteaccess")
     @GET
@@ -499,5 +499,26 @@ public class SNMPOperation {
         NetworkStatus lStatus = new NetworkStatus();
     	CLISNMPOperations.deleteAccess(pCommunity, pHost, pGroupName, lStatus);
     	return new JSONWithPadding(lStatus.toString(), pCallback);
-    }  // void JSONWithPadding deleteAccess
+    }  // JSONWithPadding deleteAccess
+    
+    @Path("/enablesnmpagent")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding enableSNMPAgent(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("option") String pOption,
+    		@QueryParam("callback") String pCallback) 
+    {
+    	if(pOption.equalsIgnoreCase("enable"))
+    	{
+    		return new JSONWithPadding(
+    			CLISNMPOperations.startSNMPD(pHost, pCommunity), 
+    			pCallback);
+    	}  // if
+    	
+    	return new JSONWithPadding(
+    			CLISNMPOperations.stopSNMPD(pHost, pCommunity), 
+    			pCallback);
+    }  // JSONWithPadding enableSNMPAgent
 }  // class SNMPOperation

@@ -117,7 +117,7 @@ public class CLISNMPOperations
 	{	
 		SNMPCommandObject lObject = new SNMPCommandObject();
 		
-		lObject.setCommand("stopSNMPDView");
+		lObject.setCommand("stopSNMPD");
 		lObject.setCommunity(pPassword);
 		
 		return sendUDPSNMPCommand(lObject, pAddress);
@@ -127,8 +127,7 @@ public class CLISNMPOperations
 	{	
 		SNMPCommandObject lObject = new SNMPCommandObject();
 		
-		lObject.setCommand("startSNMPDView");
-		lObject.setCommunity(pPassword);
+		lObject.setCommand("startSNMPD");
 
 		return sendUDPSNMPCommand(lObject, pAddress);
 	}  // void stopSNMPD
