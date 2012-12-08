@@ -137,10 +137,10 @@ $(document).ready(function(){
     });
 	
 	// Click Submit
-		$('#send_button').click(function (e) {
-			performSNMP();
-		});
-	
+	$('#send_button').click(function (e) {
+		performSNMP();
+	});
+
 	
     /*show all*/
     $("#showAll").click(function () {

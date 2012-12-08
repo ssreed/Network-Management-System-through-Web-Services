@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
-    <script type='text/javascript' src="js/core.js"></script>
+    <script type='text/javascript' src="js/core2.js"></script>
     <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
 </head>
 <body> 
@@ -23,16 +23,20 @@
                 <input type="password" name="community" id="community" placeholder="Community">
                 <label id="commandlabel">Commands</label>
                 <select name="commands" id = "commands">
-                    <option>show rmon</option>
+                    <option>Choose a command</option>
+                    <option value="createSNMPView">create and modify SNMP view</option>
+                    <option value="createAccessControl">create and modify access control</option>
+                    <option value="showRmon">show rmon</option>
                     <option>show rmon alarm</option>
                     <option>show rmon statistics</option>
                     <option>delete rmon alarm</option>
                 </select>
                 <!--<input type="submit" value="Submit" name="submit" />-->
-                <button id = "send_button">Submit</button>
+                <button id = "send_button">Submit</button>  
+                <div id="optionalParameters"></div>
             </form>
-            <p id="result"></p>
         </div>
+        <div id="result"></div>
         <div class="alarmData"></div>
         <div class="info"></div>
     </div>
