@@ -59,9 +59,20 @@ $(document).ready(function(){
         {
             $('#optionalParameters').html('');
             form = 
-                 '<select name="enableOption" id="enableOption">'
+                 '<select name="enableSNMPOption" id="enableOption">'
                 + '<option value="enable">enable</option>'
                 + '<option value="disable">disable</option>'
+                + '</select>';
+                
+            $('#optionalParameters').append(form); 
+        }
+		 if($('select#commands').val() === 'enableRmon')
+        {
+            $('#optionalParameters').html('');
+            form = 
+                 '<select name="enableRMONOption" id="enableRMONOption">'
+                + '<option value="native">native</option>'
+                + '<option value="promisciuos">promisciuos</option>'
                 + '</select>';
                 
             $('#optionalParameters').append(form); 
