@@ -16,6 +16,8 @@ import javax.ws.rs.core.UriInfo;
 import com.sun.jersey.api.json.JSONWithPadding;
 
 import snmp.*;
+import snmpadapter.RMONAlarmObject;
+import snmpadapter.RMONEventObject;
 
 import java.net.*;
 
@@ -521,4 +523,157 @@ public class SNMPOperation {
     			CLISNMPOperations.stopSNMPD(pHost, pCommunity), 
     			pCallback);
     }  // JSONWithPadding enableSNMPAgent
+    
+    @Path("/enablermon")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding enableRMON(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("option") String pOption,
+    		@QueryParam("callback") String pCallback) 
+    {
+    	NetworkStatus lStatus = new NetworkStatus();
+    	if(pOption.equalsIgnoreCase("enable"))
+    	{
+    		lStatus.setMessage("ENABLE RMON", "RMON enable successfully");
+    		return new JSONWithPadding(
+    			lStatus.toString(), 
+    			pCallback);
+    	}  // if
+    	
+		lStatus.setMessage("Disable RMON", "RMON disable successfully");
+		return new JSONWithPadding(
+			lStatus.toString(), 
+			pCallback);
+    }  // JSONWithPadding enableRMON
+    
+    @Path("/setrmonqueue")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding setRMONQueue(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("value") String pValue,
+    		@QueryParam("callback") String pCallback) 
+    {
+    	NetworkStatus lStatus = new NetworkStatus();
+    	
+		lStatus.setMessage("SET RMON QUEUE", "RMON QUEUE = " + pValue);
+		return new JSONWithPadding(
+			lStatus.toString(), 
+			pCallback);
+    }  // JSONWithPadding enableRMON
+    
+    @Path("/showrmonevent")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding showRMONEvent(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("callback") String pCallback) 
+    {
+    	RMONEventObject lObject = new RMONEventObject();
+    	lObject.setCommunity("Test");
+    	lObject.setIndex(1);
+    	lObject.setDescription("Test Event");
+    	lObject.setLastTimeSent(System.currentTimeMillis() + "");
+    	lObject.setTrap("Trap Test");
+    	lObject.setStatus("Start");
+    	lObject.setOwner("Test Owner");
+    	
+		return new JSONWithPadding(
+			"[" + lObject.toString() + "]", 
+			pCallback);
+    }  // JSONWithPadding enableRMONEvent
+    
+    @Path("/showrmonalarm")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding showRMONAlarm(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("callback") String pCallback) 
+    {
+    	RMONAlarmObject lObject = new RMONAlarmObject();
+    	
+    	lObject.setFallingEventIndex(1);
+    	lObject.setOwner("pTest");
+    	lObject.setRisingEventIndex(1);
+    	lObject.setIndex(1);
+    	lObject.setOwner("Test Alarm Owner");
+    	lObject.setRisingThreshold(12);
+    	lObject.setFallingThreshold(1);
+    	lObject.setIntervalOption("delta");
+    	lObject.setStatus("Start");
+    	lObject.setInverval(2);
+    	
+		return new JSONWithPadding(
+			"[" + lObject.toString() + "]", 
+			pCallback);
+    }  // JSONWithPadding enableRMONAlarm
+    
+    @Path("/setrmonalarm")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding setRMONAlarm(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("alarmindex") int pAlarmIndex,
+    		@QueryParam("alarminterval") String pAalarmInterval,
+    		@QueryParam("alarmvariable") String pAlarmVariable,
+    		@QueryParam("alarmsampletype") String pAlarmSampleType,
+    		@QueryParam("alarmstartupalarm") String pAlarmStartupAlarm,
+    		@QueryParam("alarmrisingthreshold") int pAalarmRisingThreshold,
+    		@QueryParam("alarmfallingthreshold") int pAalarmFallingThreshold,
+    		@QueryParam("alarmrisingeventIndex") int pAalarmRisingEventIndex,
+    		@QueryParam("alarmfallingeventIndex") int pAalarmFallingEventIndex,
+    		@QueryParam("alarmstatus") String pAlarmStatus,
+    		@QueryParam("callback") String pCallback) 
+    {
+    	RMONAlarmObject lObject = new RMONAlarmObject();
+    	
+    	lObject.setFallingEventIndex(1);
+    	lObject.setRisingEventIndex(pAalarmRisingEventIndex);
+    	lObject.setIndex(pAlarmIndex);
+    	lObject.setRisingThreshold(12);
+    	lObject.setFallingThreshold(1);
+    	lObject.setCommunity(pCommunity);
+    	lObject.setIntervalOption("delta");
+    	lObject.setStatus("Start");
+    	lObject.setInverval(2);
+    	
+		return new JSONWithPadding(
+			"[" + lObject.toString() + "]", 
+			pCallback);
+    }  // JSONWithPadding enableRMONAlarm
+    
+    @Path("/setrmonevent")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding setRMONEvent(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("eventindex") String pEventIndex,
+    		@QueryParam("eventdescription") String pEventDescription,
+    		@QueryParam("eventtype") String pEventtype,
+    		@QueryParam("eventCommunity") String pEventCommunity,
+    		@QueryParam("eventlasttimesent") String pEeventLastTimesent,
+    		@QueryParam("eventowner") String pEeventOwner,
+    		@QueryParam("eventstatus") String pEeventStatus,
+    		@QueryParam("callback") String pCallback) 
+    {
+    	RMONEventObject lObject = new RMONEventObject();
+    	lObject.setCommunity("Test");
+    	lObject.setIndex(1);
+    	lObject.setDescription("Test Event");
+    	lObject.setLastTimeSent(System.currentTimeMillis() + "");
+    	lObject.setTrap("Trap Test");
+    	lObject.setStatus("Start");
+    	lObject.setOwner("Test Owner");
+    	
+		return new JSONWithPadding(
+			"[" + lObject.toString() + "]", 
+			pCallback);
+    }  // JSONWithPadding setRMONEvent
 }  // class SNMPOperation

@@ -161,7 +161,7 @@ public class CLISNMPOperations
             
             byte[] lBuffer = new byte[10240];
             lPacket = new DatagramPacket(lBuffer, lBuffer.length);
-            mSocket.setSoTimeout(60000);
+            mSocket.setSoTimeout(6000);
             mSocket.receive(lPacket);
             
             lResultStatus = new String(lPacket.getData(), 0, lPacket.getLength());

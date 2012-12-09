@@ -14,6 +14,7 @@ import java.net.DatagramSocket;
 
 public class UDPServer extends Thread
 {
+	private boolean mRunning;
     private DatagramSocket mSocket;
     /**
      * @param args
@@ -25,6 +26,8 @@ public class UDPServer extends Thread
 
     public UDPServer()
     {
+    	mRunning = true;
+    	
         try
         {
         	mSocket = new DatagramSocket(8889);
@@ -40,7 +43,7 @@ public class UDPServer extends Thread
     @Override
     public void run()
     {
-        while(true)
+        while(mRunning)
         {
             try
             {
@@ -111,4 +114,14 @@ public class UDPServer extends Thread
     		pStatus.setMessage("ERROR", "SNMP Command Error");
     	}  // else
     }  // void performSNMPCommand
+    
+    public boolean getRunning()
+    {
+    	return mRunning;
+    }  // boolean getRunning
+    
+    public void setRunning(boolean pRunning)
+    {
+    	mRunning = pRunning;
+    }  // void setRunning
 }  // class UDPServer
