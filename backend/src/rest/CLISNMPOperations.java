@@ -17,6 +17,8 @@ import java.net.DatagramSocket;
 import java.net.InetAddress;
 
 import rest.NetworkStatus;
+import snmpadapter.RMONAlarmObject;
+import snmpadapter.RMONEventObject;
 import snmpadapter.SNMPCommandObject;
 
 public class CLISNMPOperations 
@@ -133,6 +135,81 @@ public class CLISNMPOperations
 		return sendUDPSNMPCommand(lObject, pAddress);
 	}  // void stopSNMPD
 	
+	static String stopRMON(String pAddress, String pPassword)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("stopRMON");
+		lObject.setCommunity(pPassword);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void stopRMON
+
+	static String setRMONQueue(String pAddress, String pPassword, int pQueueSize)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("setRMONQueue");
+		lObject.setCommunity(pPassword);
+		lObject.setQueueSize(pQueueSize);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void stopRMON
+
+	
+	static String startRMON(String pAddress, String pPassword)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("startRMON");
+		lObject.setCommunity(pPassword);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void startRMON
+	
+	static String showRMONAlarm(String pAddress, String pPassword)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("showRMONAlarm");
+		lObject.setCommunity(pPassword);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void showRMONAlarm
+	
+	static String showRMONEvent(String pAddress, String pPassword)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("showRMONEvent");
+		lObject.setCommunity(pPassword);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void startRMONEvent
+	
+	static String setRMONAlarm(String pAddress, String pPassword, RMONAlarmObject pObject)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("setRMONAlarm");
+		lObject.setCommunity(pPassword);
+		lObject.setAlarmObject(pObject);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void setRMONAlarm
+	
+	static String setRMONEvent(String pAddress, String pPassword,RMONEventObject pObject)
+	{	
+		SNMPCommandObject lObject = new SNMPCommandObject();
+		
+		lObject.setCommand("setRMONEvent");
+		lObject.setCommunity(pPassword);
+		lObject.setEventObject(pObject);
+		
+		return sendUDPSNMPCommand(lObject, pAddress);
+	}  // void setRMONEvent
+	
+	
 	public static String sendUDPSNMPCommand(SNMPCommandObject pObject, String pAddress)
 	{
 		String lResultStatus;
@@ -159,14 +236,12 @@ public class CLISNMPOperations
             lPacket = new DatagramPacket(lSeralizedArray,  lSeralizedArray.length, lHostAddress, 8889);
             mSocket.send(lPacket);
             
-            byte[] lBuffer = new byte[10240];
+            byte[] lBuffer = new byte[20480];
             lPacket = new DatagramPacket(lBuffer, lBuffer.length);
             mSocket.setSoTimeout(6000);
             mSocket.receive(lPacket);
             
             lResultStatus = new String(lPacket.getData(), 0, lPacket.getLength());
-            
-            
         }  // try
         catch(Exception pException)
         {

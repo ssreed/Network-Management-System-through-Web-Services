@@ -21,6 +21,11 @@ public class SNMPCommandObject implements Serializable
 	private String mOID;
 	private String mCommand;
 	
+	private RMONAlarmObject mAlarmObject;
+	private RMONEventObject mEventObject;
+	
+	private int mQueueSize;
+	
 	public void setCommand(String pCommand)
 	{
 		mCommand = pCommand;
@@ -62,5 +67,29 @@ public class SNMPCommandObject implements Serializable
 	public void setOID(String pOID) 
 	{
 		mOID = pOID;
+	}
+	public RMONEventObject getEventObject() 
+	{
+		return mEventObject;
+	}
+	public void setEventObject(RMONEventObject pObject) 
+	{
+		mEventObject = pObject;
+	}
+	public RMONAlarmObject getAlarmObject() 
+	{
+		return mAlarmObject;
+	}
+	public void setAlarmObject(RMONAlarmObject pObject) 
+	{
+		mAlarmObject = pObject;
+	}
+	public int getQueueSize() 
+	{
+		return mQueueSize;
+	}
+	public void setQueueSize(int pQueueSize) 
+	{
+		mQueueSize = pQueueSize;
 	}
 }  // class SNMPViewObject

@@ -15,6 +15,7 @@ import snmp.SNMPv1CommunicationInterface;
 public class RMONAdapter extends Thread
 {
 	boolean mRunning;
+	boolean mEnable;
 	
 	int mQueueSize;
 	
@@ -25,6 +26,7 @@ public class RMONAdapter extends Thread
 	public RMONAdapter()
 	{
 		mRunning = true;
+		mEnable = true;
 		
 		mQueueSize = 5;
 		
@@ -36,6 +38,7 @@ public class RMONAdapter extends Thread
 			RMONEventObject lEObject = new RMONEventObject();
 			lEObject.setIndex(lIndex);
 			mEventList.add(lEObject);
+			mRMONAlarmInterval.add(0);
 		}  // for
 	}  // RMONAdapter
 	
@@ -46,6 +49,11 @@ public class RMONAdapter extends Thread
         {
             try
             {
+            	if(!mEnable)
+            	{
+            		continue;
+            	}  // if
+            	
             	updateRMONObjects();
             }  // try
             catch(Exception pException)
@@ -165,6 +173,7 @@ public class RMONAdapter extends Thread
     				RMONEventObject lEObject = new RMONEventObject();
     				lEObject.setIndex(lIndex);
     				mEventList.add(lEObject);
+    				mRMONAlarmInterval.add(0);
     			}  // for
     		}  // if
     		else if(mQueueSize > pQueueSize)
@@ -174,6 +183,7 @@ public class RMONAdapter extends Thread
     			{
     				mAlarmList.remove(lIndex);
     				mEventList.remove(lIndex);
+    				mRMONAlarmInterval.remove(lIndex);
     			}  // for
     		}  // else if
     			
@@ -240,7 +250,17 @@ public class RMONAdapter extends Thread
     
     public void setRunning(boolean pRunning)
     {
-    	if(pRunning)
+    	mRunning = pRunning;
+    }  // void setRunning
+    
+    public boolean getEnable()
+    {
+    	return mEnable;
+    }  // getRunning
+    
+    public void setEnable(boolean pEnable)
+    {
+    	if(pEnable)
     	{
     		System.out.println("Enable RMON");
     	}  // if
@@ -249,6 +269,6 @@ public class RMONAdapter extends Thread
     		System.out.println("Disable RMON");
     	}  // else
     	
-    	mRunning = pRunning;
-    }  // void setRunning
+    	mEnable = pEnable;
+    }  // getEnable
 }  // class RMONAdapter
