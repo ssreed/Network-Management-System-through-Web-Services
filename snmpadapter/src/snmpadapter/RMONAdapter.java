@@ -30,6 +30,10 @@ public class RMONAdapter extends Thread
 		
 		mQueueSize = 5;
 		
+		mAlarmList = new ArrayList<RMONAlarmObject>();
+		mEventList = new ArrayList<RMONEventObject>();
+		mRMONAlarmInterval = new ArrayList<Integer>();
+		
 		for(int lIndex = 0; lIndex < mQueueSize; lIndex++)
 		{
 			RMONAlarmObject lAObject = new RMONAlarmObject();
