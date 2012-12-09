@@ -225,6 +225,10 @@ public class RMONAdapter extends Thread
 		for(int lIndex = 0; lIndex < mQueueSize; lIndex++)
 		{
 			lString.append(mAlarmList.get(lIndex));
+			if(lIndex + 1 < mQueueSize)
+			{
+				lString.append(",");
+			}  // if
 		}  // for
 		
 		lString.append("]");
@@ -240,6 +244,10 @@ public class RMONAdapter extends Thread
 		for(int lIndex = 0; lIndex < mQueueSize; lIndex++)
 		{
 			lString.append(mEventList.get(lIndex));
+			if(lIndex + 1 < mQueueSize)
+			{
+				lString.append(",");
+			}  // if
 		}  // for
 		
 		lString.append("]");
