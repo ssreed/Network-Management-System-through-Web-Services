@@ -40,7 +40,7 @@ public class SNMPOperation {
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
     }
-
+    
     /**
      * GET method to perform snmpget
      * @param pHost The address of the host for the element
@@ -356,83 +356,109 @@ public class SNMPOperation {
     @Path("/walk")
     @GET
     @Produces("application/javascript")
-    public JSONWithPadding snmpWalk(@QueryParam("host") String pHost, 
+    public JSONWithPadding snmpWalk(
+    		@QueryParam("host") String pHost, 
     		@QueryParam("community") String pCommunity,
     		@QueryParam("oid") String pOID,
-    		@QueryParam("callback") String pCallback) {
+    		@QueryParam("callback") String pCallback) 
+    {
         
         NetworkStatus lStatus = new NetworkStatus();
         
-        try
-        {
-        	// Create a communication
-        	InetAddress lHostAddress = 
-        			InetAddress.getByName(pHost);
-        	
-        	int lVersion = 0;
-        	
-        	SNMPv1CommunicationInterface lInterface = new SNMPv1CommunicationInterface(lVersion, lHostAddress, pCommunity);
-        	String lRetrievedOID = pOID;
-        	
-        	String lSNMPNULL = "class snmp.SNMNULL";
-        	String lSNMPOCETSTRING = "class snmp.SNMPOctetString";
-        	
-        	SNMPVarBindList lSNMPVar = lInterface.getMIBEntry(lRetrievedOID);
-			SNMPSequence lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
-			SNMPObjectIdentifier lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
-			SNMPObject lSNMPValue = lPair.getSNMPObjectAt(1);
-			lRetrievedOID = lSNMPOID.toString();
-			String lSNMPValueType = lSNMPValue.getClass().toString();
-			
-        	do
-        	{
-        		try
-        		{
-        		
-        			if(lSNMPValueType.equals(lSNMPNULL))
-        			{
-        				break;
-        			}  // if
-        			else if(lSNMPValueType.equals(lSNMPOCETSTRING))
-        			{
-        				String lSNMPValueString = lSNMPValue.toString();
-        				int lNULLIndex = lSNMPValueString.indexOf('\0');
-        				if(lNULLIndex >= 0)
-        				{
-        					lSNMPValueString = lSNMPValueString.substring(0, lNULLIndex);
-        				}  // if
-        				lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValueString + " (hex: " +((SNMPOctetString)lSNMPValue).toHexString() + ")");      				
-        			}  // else
-        			else
-        			{
-        				lStatus.setMessage("OID Name", "OID: " + lSNMPOID + " Type: " + lSNMPValueType + " Value: " + lSNMPValue);
-        			}  // else
-        		}  // try
-        		catch(Exception pException)
-        		{
-        			lStatus.setMessage("ERROR", pException.toString());
-        			break;
-        		}  // catch
-        		
-        		lSNMPVar = lInterface.getNextMIBEntry(lRetrievedOID);
-    			lPair = (SNMPSequence)(lSNMPVar.getSNMPObjectAt(0));
-    			lSNMPOID = (SNMPObjectIdentifier)lPair.getSNMPObjectAt(0);
-    			lSNMPValue = lPair.getSNMPObjectAt(1);
-    			lRetrievedOID = lSNMPOID.toString();
-    			lSNMPValueType = lSNMPValue.getClass().toString();    			
-        	}while(true);
-        	
-        	lInterface.closeConnection();
-        }  // try
-        catch(UnknownHostException pException)
-        {
-        	lStatus.setMessage("Error", "Invalid Address");
-        }  // catch
-        catch(Exception pException)
-        {
-        	lStatus.setMessage("ERROR", "Error in generating data" + pException.toString());
-        }  // catch
+        CLISNMPOperations.snmpwalk(pOID, pCommunity, pHost, lStatus);
         
         return new JSONWithPadding(lStatus.toString(), pCallback);
-        }  // JSONWithPadding snmpWalk
+    }  // JSONWithPadding snmpWalk
+    
+    @Path("/createsec2group")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding createSec2Group(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("securityname") String pSecurityName,
+    		@QueryParam("groupname") String pGroupName,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+    	CLISNMPOperations.createSec2Group(pCommunity, pHost, pSecurityName, pGroupName, lStatus);
+    	return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // void JSONWithPadding createSec2Group
+
+    @Path("/deletesec2group")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding deleteSec2Group(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("securityname") String pSecurityName,
+    		@QueryParam("groupname") String pGroupName,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+    	CLISNMPOperations.deleteSec2Group(pCommunity, pHost, pSecurityName, lStatus);
+    	return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // void JSONWithPadding deleteSec2Group
+    
+    @Path("/createview")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding createView(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("option") String pOption,
+    		@QueryParam("viewname") String pViewName,
+    		@QueryParam("oid") String pOID,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+    	CLISNMPOperations.createView(pCommunity, pHost, pOption, pViewName, pOID, lStatus);
+    	return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // void JSONWithPadding createView
+    
+    @Path("/deleteview")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding deleteView(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("viewname") String pViewName,
+    		@QueryParam("oid") String pOID,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+    	CLISNMPOperations.deleteView(pCommunity, pHost, pViewName, pOID, lStatus);
+    	return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // void JSONWithPadding deleteView
+    
+    @Path("/createaccess")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding createAccess(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("groupname") String pGroupName,
+    		@QueryParam("readviewname") String pReadViewName,
+    		@QueryParam("writeviewname") String pWriteViewName,
+    		@QueryParam("notifyviewname") String pNotifyViewName,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+    	CLISNMPOperations.createAccess(pCommunity, pHost, pGroupName, pReadViewName, pWriteViewName, pNotifyViewName, lStatus);
+    	return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // void JSONWithPadding createAccess
+    
+    @Path("/deleteaccess")
+    @GET
+    @Produces("application/javascript")
+    public JSONWithPadding deleteAccess(
+    		@QueryParam("host") String pHost, 
+    		@QueryParam("community") String pCommunity,
+    		@QueryParam("groupname") String pGroupName,
+    		@QueryParam("callback") String pCallback) 
+    {
+        NetworkStatus lStatus = new NetworkStatus();
+    	CLISNMPOperations.deleteAccess(pCommunity, pHost, pGroupName, lStatus);
+    	return new JSONWithPadding(lStatus.toString(), pCallback);
+    }  // void JSONWithPadding deleteAccess
 }  // class SNMPOperation
