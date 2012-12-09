@@ -1,7 +1,10 @@
 package snmpadapter;
 
-public class RMONEventObject 
+import java.io.Serializable;
+
+public class RMONEventObject implements Serializable
 {
+	private static final long serialVersionUID = 1L;
 	private int mIndex;
 	private String mTrap;
 	private String mCommunity;

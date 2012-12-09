@@ -1,7 +1,11 @@
 package snmpadapter;
 
-public class RMONAlarmObject 
+import java.io.Serializable;
+
+public class RMONAlarmObject implements Serializable
 {
+	private static final long serialVersionUID = 1L;
+	
 	private int mIndex;
 	private String mVariable;
 	private int mInverval;
