@@ -1,0 +1,50 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: 1.6.0_20 (Sun Microsystems Inc.)
+Built-By: root
+Build-Jdk: 1.6.0_20
+Extension-Name: console-core
+Specification-Title: Java.net - The Source for Java Technology Collabo
+ ration
+Specification-Vendor: GlassFish Community
+Implementation-Vendor: GlassFish Community
+Implementation-Title: console-core
+Implementation-Version: 3.1.2.1-SNAPSHOT
+HK2-Class-Path-Id: com.sun.woodstock:webui-jsf-suntheme:jar:4.0.2.9 co
+ m.sun.woodstock:webui-jsf:jar:4.0.2.9 com.sun.woodstock.dependlibs:js
+ on:jar:1.0 com.sun.woodstock.dependlibs:dojo-ajax-nodemo:jar:0.4.1 co
+ m.sun.woodstock.dependlibs:prototype:jar:1.5.0
+Bundle-SymbolicName: org.glassfish.main.admingui.console-core
+Class-Path: webui-jsf-suntheme.jar webui-jsf.jar json.jar dojo-ajax-no
+ demo.jar prototype.jar
+Export-Package: org.glassfish.admingui.handlers;uses:="com.sun.data.pr
+ ovider,org.glassfish.admingui.common.util,com.sun.jsftemplating.compo
+ nent.dataprovider,com.sun.webui.jsf.component,com.sun.jsftemplating.l
+ ayout.descriptors.handler,javax.faces.context,org.glassfish.admingui.
+ plugin,org.glassfish.admingui.common.plugin,org.glassfish.admingui.co
+ mmon.handlers,com.sun.webui.theme,org.glassfish.admingui.util,javax.f
+ aces.model,com.sun.webui.jsf.model";version="3.1.2.1-SNAPSHOT",org.gl
+ assfish.admingui.util;uses:="javax.faces.model,com.sun.webui.jsf.mode
+ l";version="3.1.2.1-SNAPSHOT"
+Tool: Bnd-0.0.357
+Bundle-Name: Admin Console Core Jar
+Bundle-Vendor: GlassFish Community
+Bundle-Version: 3.1.2.1-SNAPSHOT
+Bnd-LastModified: 1342033493359
+Bundle-ManifestVersion: 2
+Bundle-License: https://glassfish.dev.java.net/nonav/public/CDDL+GPL.h
+ tml
+Bundle-Description: Java.net - The Source for Java Technology Collabor
+ ation
+Import-Package: com.sun.data.provider;password=GlassFish,com.sun.enter
+ prise.registration.glassfish;version="3.1",com.sun.enterprise.registr
+ ation.impl;version="3.1",com.sun.jsftemplating.component.dataprovider
+ ,com.sun.jsftemplating.layout.descriptors.handler,com.sun.webui.jsf.c
+ omponent,com.sun.webui.jsf.model,com.sun.webui.jsf.theme,com.sun.webu
+ i.theme,javax.faces.context;version="2.1",javax.faces.model;version="
+ 2.1",org.glassfish.admingui.common.handlers,org.glassfish.admingui.co
+ mmon.plugin;version="3.1",org.glassfish.admingui.common.util;version=
+ "3.1",org.glassfish.admingui.handlers;version="3.1",org.glassfish.adm
+ ingui.plugin;version="3.1",org.glassfish.admingui.util;version="3.1"
+Bundle-DocURL: http://glassfish.java.net
+
