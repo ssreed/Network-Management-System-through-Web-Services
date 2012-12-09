@@ -50,7 +50,7 @@
         if (lOperation == "set") {
             var lValue = prompt("Please enter the new value for the entry", "");
             if (lValue != null && lValue != "") {
-                lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID + "&value=" + lValue;
+                lURL = "https://" + lServerHost + ":8181/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID + "&value=" + lValue;
             }  // if
             else if (lValue == "") {
                 alert("The operation is canceled due to an invalid input. The input cannot be empty.");
@@ -66,7 +66,7 @@
             do {
                 var lValue = prompt("Please enter the test variable", "");
                 if (lValue != null && lValue != "") {
-                    lResultValue = lResultValue + lValue + ";";             
+                    lResultValue = lResultValue + lValue + ";";
                 }  // if
                 else {
                     break;
@@ -78,14 +78,14 @@
                 return;
             }  // if
 
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oids=" + lResultValue;
+            lURL = "https://" + lServerHost + ":8181/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oids=" + lResultValue;
         }   // if
         else if (lOperation == "translate") {
             var lResultValue = "";
             do {
                 var lValue = prompt("Please enter the translate numeric oid", "");
                 if (lValue != null && lValue != "") {
-                    lResultValue = lResultValue + lValue + ";";             
+                    lResultValue = lResultValue + lValue + ";";
                 }  // if
                 else {
                     break;
@@ -97,14 +97,15 @@
                 return;
             }  // if
 
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?oids=" + lResultValue;
+            lURL = "https://" + lServerHost + ":8181/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?oids=" + lResultValue;
         }   // if
         else if (lOperation == "status" || lOperation == "netstat") {
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity;
+            lURL = "https://" + lServerHost + ":8181/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity;
         }  // else
         else {
-            lURL = "http://" + lServerHost + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID;
+            lURL = "https://" + lServerHost + ":8181/CS158B_WEBSERVICES/rest/snmpoperation/" + lOperation + "?host=" + lHost + "&community=" + lCommunity + "&oid=" + lOID;
         }  // else
+
         $.ajax({
             cache: true,
             url: lURL,
@@ -115,6 +116,8 @@
             success: parseResponse,
             error: ajaxCallFailed
         });  // ajax
+
+        $(".nodesContent").append(lURL);
     }  // function performSNMP
 </script>
 </head>

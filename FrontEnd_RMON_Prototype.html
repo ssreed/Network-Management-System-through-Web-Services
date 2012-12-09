@@ -70,9 +70,9 @@
                     + '<input name = "viewname" type = "text" id = "viewname"/>'
                     + '<label id="oidTreeLabel">OID Tree</label>'
                     + '<input name = "oid" type = "text" id="oid"/>'
-                    + '<select name="snmpViewOption">'
-                    + '<option value="include">include</option>'
-                    + '<option value="exclude">exclude</option>'
+                    + '<select name="option">'
+                    + '<option value="included">included</option>'
+                    + '<option value="excluded">excluded</option>'
                     + '</select>';
                 $('#optionalParameters').append(form);
             }
@@ -209,7 +209,7 @@
         });
 
         $('#input_form').submit(function () {
-            var lURL = "http://" + $('#txtServerHost').val() + ":8080/CS158B_WEBSERVICES/rest/snmpoperation/" + $('select#commands').val() + "?" + $(this).serialize();
+            var lURL = "https://" + $('#txtServerHost').val() + ":8181/CS158B_WEBSERVICES/rest/snmpoperation/" + $('select#commands').val() + "?" + $(this).serialize();
             var result = $('#result').html(lURL);
             $.ajax({
                 cache: true,
