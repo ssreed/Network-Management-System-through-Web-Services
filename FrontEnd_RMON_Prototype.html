@@ -8,7 +8,8 @@
     parseResponse = function (data) {
         $("#node_list").empty();
 
-        if ($('select#commands').val() === 'showrmonalarm') {
+        if ($('select#commands').val() == 'showrmonalarm' ||
+        $('select#commands').val() == 'setrmonalarm') {
             table = '<table border = 1>'
                 + '<tr><td>alarm index</td>'
                 + '<td>alarm variable</td>'
@@ -18,6 +19,7 @@
                 + '<td>alarm rising event index </td>'
                 + '<td>alarm falling threshold</td>'
                 + '<td>alarm falling event index</td>'
+                + '<td>alarm status</td>'
                 + '<td>alarm owner</td></tr>';
 
             $.each(data, function (pIndex, pElement) {
@@ -30,18 +32,21 @@
                 + '<td>' + pElement.alarmrisingeventindex + '</td>'
                 + '<td>' + pElement.alarmfallingthreshold +'</td>'
                 + '<td>' + pElement.alarmfallingeventindex + '</td>'
+                + '<td>' + pElement.alarmstatus + '</td>'
                 + '<td>' + pElement.alarmowner + '</td></tr>';
             });
             table = table + '</table>';
             $("#result").append(table);
         }  // if
-        else if ($('select#commands').val() === 'showrmonevent') {
+        else if ($('select#commands').val() === 'showrmonevent' ||
+         $('select#commands').val() == 'setrmonevent')  {
             table = '<table border = 1>'
                 + '<tr><td>event index</td>'
                 + '<td>event trap </td>'
                 + '<td>event community</td>'
                 + '<td>event last timesent</td>'
                 + '<td>event description </td>'
+                + '<td>event status</td>'
                 + '<td>event owner</td></tr>';
 
             $.each(data, function (pIndex, pElement) {
@@ -50,6 +55,7 @@
                 + '<td>' + pElement.eventcommunity + '</td>'
                 + '<td>' + pElement.eventlasttimesent + '</td>'
                 + '<td>' + pElement.eventdescription + '</td>'
+                + '<td>' + pElement.eventstatus + '</td>'
                 + '<td>' + pElement.eventowner + '</td></tr>';
             });
             table = table + '</table>';
@@ -201,26 +207,26 @@
             if ($('select#commands').val() === 'setrmonalarm') {
                 $('#optionalParameters').html('');
                 form =
-                    '<label id="alarmIndexLabel">index</label>'
-                    + '<input name = "alarmIndex" type = "text" id = "alarmIndex"/>'
-                    + '<label id="alarmIntervalLabel">interval</label>'
-                    + '<input name = "alarmInterval" type = "text" id = "alarmInterval"/>'
-                    + '<label id="alarmVariableLabel">variable</label>'
-                    + '<input name = "alarmVariable" type = "text" id = "alarmVariable"/>'
-                    + '<label id="alarmSampleTypeLabel">sample type</label>'
-                    + '<input name = "alarmSampleType" type = "text" id = "alarmSampleType"/>'
-                    + '<label id="alarmStartupAlarmLabel">start up alarm</label>'
-                    + '<input name = "alarmStartupAlarm" type = "text" id = "alarmStartupAlarm"/>'
+                    '<label id="alarmindexLabel">index</label>'
+                    + '<input name = "alarmindex" type = "text" id = "alarmIndex"/>'
+                    + '<label id="alarmintervalLabel">interval</label>'
+                    + '<input name = "alarminterval" type = "text" id = "alarminterval"/>'
+                    + '<label id="alarmvariableLabel">variable</label>'
+                    + '<input name = "alarmvariable" type = "text" id = "alarmvariable"/>'
+                    + '<label id="alarmsampletypeLabel">sample type</label>'
+                    + '<input name = "alarmsampletype" type = "text" id = "alarmsampletype"/>'
+                    + '<label id="alarmstartupalarmLabel">start up alarm</label>'
+                    + '<input name = "alarmstartupalarm" type = "text" id = "alarmstartupalarm"/>'
                     + '<label id="alarmRisingThresholdLabel">rising threshold</label>'
-                    + '<input name = "alarmRisingThreshold" type = "text" id = "alarmRisingThreshold"/>'
-                    + '<label id="alarmFallingThresholdLabel">falling threshold</label>'
-                    + '<input name = "alarmFallingThreshold" type = "text" id = "alarmFallingThreshold"/>'
-                    + '<label id="alarmRisingEventIndexLabel">rising event index</label>'
-                    + '<input name = "alarmRisingEventIndex" type = "text" id = "alarmRisingEventIndex"/>'
-                    + '<label id="alarmFallingEventIndexLabel">rising event index</label>'
-                    + '<input name = "alarmFallingEventIndex" type = "text" id = "alarmFallingEventIndex"/>'
-                    + '<label id="alarmStatusLabel">status</label>'
-                    + '<input name = "alarmStatus" type = "text" id = "alarmStatus"/>';
+                    + '<input name = "alarmrisingthreshold" type = "text" id = "alarmrisingthreshold"/>'
+                    + '<label id="alarmfallingthresholdLabel">falling threshold</label>'
+                    + '<input name = "alarmfallingthreshold" type = "text" id = "alarmfallingthreshold"/>'
+                    + '<label id="alarmrisingeventindexLabel">rising event index</label>'
+                    + '<input name = "alarmRisingEventIndex" type = "text" id = "alarmrisingeventindex"/>'
+                    + '<label id="alarmfallingeventindexLabel">rising event index</label>'
+                    + '<input name = "alarmfallingeventIndex" type = "text" id = "alarmfallingeventindex"/>'
+                    + '<label id="alarmstatusLabel">status</label>'
+                    + '<input name = "alarmstatus" type = "text" id = "alarmstatus"/>';
 
 
 
@@ -229,20 +235,20 @@
             if ($('select#commands').val() === 'setrmonevent') {
                 $('#optionalParameters').html('');
                 form =
-                    '<label id="eventIndexLabel">index</label>'
-                    + '<input name = "eventIndex" type = "text" id = "eventIndex"/>'
-                    + '<label id="eventDescriptionLabel">description</label>'
-                    + '<input name = "eventDescription" type = "text" id = "eventDescription"/>'
-                    + '<label id="eventTypeLabel">type</label>'
-                    + '<input name = "eventType" type = "text" id = "eventType"/>'
+                    '<label id="eventindexLabel">index</label>'
+                    + '<input name = "eventindex" type = "text" id = "eventindex"/>'
+                    + '<label id="eventdescriptionLabel">description</label>'
+                    + '<input name = "eventdescription" type = "text" id = "eventdescription"/>'
+                    + '<label id="eventtypeLabel">type</label>'
+                    + '<input name = "eventtype" type = "text" id = "eventtype"/>'
                     + '<label id="eventCommunityLabel">community</label>'
-                    + '<input name = "eventCommunity" type = "text" id = "eventCommunity"/>'
+                    + '<input name = "eventCommunity" type = "text" id = "eventcommunity"/>'
                     + '<label id="eventLastTimeSentLabel">last time sent</label>'
-                    + '<input name = "eventLastTimeSent" type = "text" id = "eventLastTimeSent"/>'
-                    + '<label id="eventOwnerLabel">owner</label>'
-                    + '<input name = "eventOwner" type = "text" id = "eventOwner"/>'
-                    + '<label id="eventStatusLabel">status</label>'
-                    + '<input name = "eventStatus" type = "text" id = "eventStatus"/>';
+                    + '<input name = "eventlasttimesent" type = "text" id = "eventlasttimesent"/>'
+                    + '<label id="eventownerlabel">owner</label>'
+                    + '<input name = "eventowner" type = "text" id = "eventowner"/>'
+                    + '<label id="eventstatusLabel">status</label>'
+                    + '<input name = "eventstatus" type = "text" id = "eventstatus"/>';
 
                 $('#optionalParameters').append(form);
             }
