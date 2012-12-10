@@ -166,7 +166,7 @@ $(document).ready(function(){
 	$('#input_form').submit(function () {
 
             var lURL = "https://" + $('#txtServerHost').val() + ":8181/CS158B_WEBSERVICES/rest/snmpoperation/" + $('select#commands').val() + "?" + $(this).serialize();
-            var result = $('#result').html(lURL);
+            //var result = $('#result').html(lURL);
             $.ajax({
                 cache: true,
                 url: lURL,
@@ -197,7 +197,7 @@ $(document).ready(function(){
 
         if ($('select#commands').val() == 'showrmonalarm' ||
         $('select#commands').val() == 'setrmonalarm') {
-            table = '<table border = 1>'
+            table = '<table class="table table-hover table-striped">'
                 + '<tr><td>alarm index</td>'
                 + '<td>alarm variable</td>'
                 + '<td>alarm interval</td>'
@@ -227,7 +227,7 @@ $(document).ready(function(){
         }  // if
         else if ($('select#commands').val() === 'showrmonevent' ||
          $('select#commands').val() == 'setrmonevent')  {
-            table = '<table border = 1>'
+            table = '<table class="table table-hover table-striped">'
                 + '<tr><td>event index</td>'
                 + '<td>event trap </td>'
                 + '<td>event community</td>'
