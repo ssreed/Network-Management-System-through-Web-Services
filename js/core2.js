@@ -7,6 +7,29 @@ $(document).ready(function(){
         //var result = $('#result').html(querystring);
     });
 	*/
+	/*
+	var table =  
+                '<table id="alarmTable" border="1">'
+                + '<tr id="hearderOfAlarmTable">'
+                + '<td class="alarmindex"> alarmindex</td>'
+				+ '<td class="alarminterval"> alarminterval</td>'
+				+ '<td class="alarmvariable"> alarmvariable</td>'
+				+ '<td class="alarmsampletype"> alarmsampletype</td>'
+				+ '<td class="alarmvalue"> alarmvalue</td>'
+				+ '<td class="alarmstartupalarm"> alarmstartupalarm</td>'
+				+ '<td class="alarmrisingthreshold"> alarmrisingthreshold</td>'
+				+ '<td class="alarmfallingthreshold"> alarmfallingthreshold</td>'
+				+ '<td class="alarmrisingeventindex"> alarmrisingeventindex</td>'
+				+ '<td class="alarmfallingeventindex"> alarmfallingeventindex</td>'
+				+ '<td class="alarmstatus"> alarmstatus</td>'
+            	+ '</tr>'
+                + '</table>';
+				
+	 
+	$('#result').append(table);
+	*/
+	
+	
     $('#commands').change(function() {
 		if($('select#commands').val() === '' || $('select#commands').val() === 'montiorSNMPStatus' 
 			|| $('select#commands').val() === 'showRmonAlarm' || $('select#commands').val() === 'showRmonEvent')
