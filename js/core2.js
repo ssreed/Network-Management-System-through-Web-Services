@@ -251,27 +251,15 @@ $(document).ready(function(){
 		 else if ($('select#commands').val() === 'status')  {
 			 $.each(data, function (pIndex, pElement) {
                 var lName = { text: pElement.name };
-                if (lName.text == "OID Name") {
+                // if
+                if (lName.text == "STATUS") {
                     var lValue = { text: pElement.value };
 
                     var lLI = document.createElement("li");
-                    $("#node_list").append(lLI);
+                    $("#result").append(lLI);
                     $(lLI).append($("<p>", lValue));
                 }  // if
-                else if (lName.text == "STATUS") {
-                    var lValue = { text: pElement.value };
-
-                    var lLI = document.createElement("li");
-                    $("#node_list").append(lLI);
-                    $(lLI).append($("<p>", lValue));
-                }  // if
-                else {
-                    var lValue = { text: pElement.value };
-                    var lLI = document.createElement("li");
-                    $("#node_list").append(lLI);
-                    $(lLI).append($("<p>", lName));
-                    $(lLI).append($("<p>", lValue));
-                }  // else
+                // else
             });
 		 }
 		// else if
