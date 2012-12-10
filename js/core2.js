@@ -173,8 +173,6 @@ $(document).ready(function(){
         }
     });
 	
-
-	
 	
 	*/
 	
@@ -405,10 +403,11 @@ $(document).ready(function(){
 	
     /*Danil's functions*/
 	
-	parseResponse = function (data) {
+	    parseResponse = function (data) {
         $("#node_list").empty();
 
-        if ($('select#commands').val() === 'showrmonalarm') {
+        if ($('select#commands').val() == 'showrmonalarm' ||
+        $('select#commands').val() == 'setrmonalarm') {
             table = '<table border = 1>'
                 + '<tr><td>alarm index</td>'
                 + '<td>alarm variable</td>'
@@ -418,6 +417,7 @@ $(document).ready(function(){
                 + '<td>alarm rising event index </td>'
                 + '<td>alarm falling threshold</td>'
                 + '<td>alarm falling event index</td>'
+                + '<td>alarm status</td>'
                 + '<td>alarm owner</td></tr>';
 
             $.each(data, function (pIndex, pElement) {
@@ -430,18 +430,21 @@ $(document).ready(function(){
                 + '<td>' + pElement.alarmrisingeventindex + '</td>'
                 + '<td>' + pElement.alarmfallingthreshold +'</td>'
                 + '<td>' + pElement.alarmfallingeventindex + '</td>'
+                + '<td>' + pElement.alarmstatus + '</td>'
                 + '<td>' + pElement.alarmowner + '</td></tr>';
             });
             table = table + '</table>';
             $("#result").append(table);
         }  // if
-        else if ($('select#commands').val() === 'showrmonevent') {
+        else if ($('select#commands').val() === 'showrmonevent' ||
+         $('select#commands').val() == 'setrmonevent')  {
             table = '<table border = 1>'
                 + '<tr><td>event index</td>'
                 + '<td>event trap </td>'
                 + '<td>event community</td>'
                 + '<td>event last timesent</td>'
                 + '<td>event description </td>'
+                + '<td>event status</td>'
                 + '<td>event owner</td></tr>';
 
             $.each(data, function (pIndex, pElement) {
@@ -450,16 +453,37 @@ $(document).ready(function(){
                 + '<td>' + pElement.eventcommunity + '</td>'
                 + '<td>' + pElement.eventlasttimesent + '</td>'
                 + '<td>' + pElement.eventdescription + '</td>'
+                + '<td>' + pElement.eventstatus + '</td>'
                 + '<td>' + pElement.eventowner + '</td></tr>';
             });
             table = table + '</table>';
             $("#result").append(table);
         }  // else if
         else {
-           $.each(data, function (pIndex, pElement) {
-			var result  = '<p>' + pElement.name + ':' + pElement.value + '</p>';
-			$("#result").append(result);
-		});
+            $.each(data, function (pIndex, pElement) {
+                var lName = { text: pElement.name };
+                if (lName.text == "OID Name") {
+                    var lValue = { text: pElement.value };
+
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lValue));
+                }  // if
+                else if (lName.text == "NETSTAT" || lName.text == "STATUS" || lName.text == "TRANSLATE") {
+                    var lValue = { text: pElement.value };
+
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lValue));
+                }  // if
+                else {
+                    var lValue = { text: pElement.value };
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lName));
+                    $(lLI).append($("<p>", lValue));
+                }  // else
+            });
         }  // else
     }  // parseResponse
 
