@@ -2,49 +2,59 @@
 <html>
 <head>
     <title>MIB-Browser</title>
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src="js/bootstrap.js"></script>
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
     <script type='text/javascript' src="js/core.js"></script>
 </head>
 <body> 
-    <div class="page">
-        <div class="header">
-            <h1 class="title">MIB Browsr</h1>
-        </div>
-        <div id="input">
-             <form id="input_form">
-                <label id="serverHostlabel">Server Host</label>
-                <input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
-                <label id="hostlabel">Host</label>
-                <input type="text" name="host" id="host" placeholder="Host IP goes here" autofocus required> 
-                <!--<label id="portlabel">Port</label>
-                <input type="text" name="port" id="port" placeholder="Port number">  -->
-                <label id="communitylabel">Community</label>
-                <input type="password" name="community" id="community" placeholder="Community">
-                <label id="oidlabel">OID</label>
-                <input type="text" name="oid" id="oid" placeholder="Object ID number"> 
-                <label id="commandlabel">Commands</label>
-                <select name="commands" id = "commands">
-                    <option>Status</option>
-                    <option>Netstat</option>
-                    <option>Test</option>
-                    <option>Walk</option>
-                    <option>Get</option>
-                    <option>Translate</option>
-                </select>
-                <!--<input type="submit" value="Submit" name="submit" />-->
-                <button id = "send_button">Submit</button>
-            </form>
-            <p id="result"></p>
-            <input type="submit" value="Show all" name="showAll" id="showAll"/>
-        </div>
-        <div class="tree">
-            <ul class="node" id="iso(1)">
-            </ul>
-        </div>
-        <div class="info">
+    <ul class="nav nav-tabs">
+        <li class="active">
+            <a href="#">Home</a>
+        </li>
+        <li><a href="alarms.html">Alarms & Events</a></li>
+    </ul>
+
+    <div class="container">
+        <div class="page">
+            <!--<div class="header">
+                <h1 class="title">MIB Browsr</h1>
+            </div>-->
+            <div id="input">
+                 <form id="input_form">
+                    <label id="serverHostlabel">Server Host</label>
+                    <input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
+                    <label id="hostlabel">Host</label>
+                    <input type="text" name="host" id="host" placeholder="Host IP goes here" autofocus required> 
+                    <label id="communitylabel">Community</label>
+                    <input type="password" name="community" id="community" placeholder="Community">
+                    <label id="oidlabel">OID</label>
+                    <input type="text" name="oid" id="oid" placeholder="Object ID number"> 
+                    <label id="commandlabel">Commands</label>
+                    <select name="commands" id="commands">
+                        <option>Status</option>
+                        <option>Netstat</option>
+                        <option>Test</option>
+                        <option>Walk</option>
+                        <option>Get</option>
+                        <option>Translate</option>
+                    </select>
+                    <button type="button" id="send_button" class="btn btn-inverse" data-toggle="button">Submit</button>
+                </form>
+                <p id="result"></p>
+                <input type="submit" value="Show all" name="showAll" id="showAll" class="btn btn-inverse"/>
+            </div>
+
+            <div class="tree">
+                <ul class="node" id="iso(1)">
+                </ul>
+            </div>
+            
+            <div class="info"></div>
         </div>
     </div>
+
 </body> 
 </html>
