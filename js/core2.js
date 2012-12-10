@@ -1,12 +1,12 @@
 $(document).ready(function(){
-   
+	/*
     // Click Submit
     $('#send_button').click(function (e) {
         performSNMP();
         //var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
         //var result = $('#result').html(querystring);
     });
-	
+	*/
     $('#commands').change(function() {
 		if($('select#commands').val() === '' || $('select#commands').val() === 'montiorSNMPStatus' 
 			|| $('select#commands').val() === 'showRmonAlarm' || $('select#commands').val() === 'showRmonEvent')
@@ -154,6 +154,16 @@ $(document).ready(function(){
     $('#input_form').submit(function() {
       var querystring = "http://localhost:8080/CS158B_WEBSERVICES/REST/SNMPOPERATION/" + $(this).serialize();
       var result = $('#result').html(querystring);
+	  $.ajax({
+            cache: true,
+            url: querystring,
+            data: {},
+            datatype: "GET",
+            contentType: "application/javascript",
+            dataType: "jsonp",
+            success: parseResponse,
+            error: ajaxCallFailed
+        });  // ajax
       return false;
     });
     
@@ -213,7 +223,7 @@ $(document).ready(function(){
         });
     };// parseResponse
 
-
+	/*
     function performSNMP() {
         var lCommunity = document.getElementById("community").value;
         var lHost = document.getElementById("host").value;
@@ -291,5 +301,5 @@ $(document).ready(function(){
             error: ajaxCallFailed
         });  // ajax
     }  // function performSNMP
-
+*/
 });
