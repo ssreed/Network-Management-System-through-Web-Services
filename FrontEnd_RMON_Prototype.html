@@ -7,30 +7,80 @@
 
     parseResponse = function (data) {
         $("#node_list").empty();
-        $.each(data, function (pIndex, pElement) {
-            var lName = { text: pElement.name };
-            if (lName.text == "OID Name") {
-                var lValue = { text: pElement.value };
 
-                var lLI = document.createElement("li");
-                $("#node_list").append(lLI);
-                $(lLI).append($("<p>", lValue));
-            }  // if
-            else if (lName.text == "NETSTAT" || lName.text == "STATUS" || lName.text == "TRANSLATE") {
-                var lValue = { text: pElement.value };
+        if ($('select#commands').val() === 'showrmonalarm') {
+            table = '<table border = 1>'
+                + '<tr><td>alarm index</td>'
+                + '<td>alarm variable</td>'
+                + '<td>alarm interval</td>'
+                + '<td>alarm interval option</td>'
+                + '<td>alarm rising threshold</td>'
+                + '<td>alarm rising event index </td>'
+                + '<td>alarm falling threshold</td>'
+                + '<td>alarm falling event index</td>'
+                + '<td>alarm owner</td></tr>';
 
-                var lLI = document.createElement("li");
-                $("#node_list").append(lLI);
-                $(lLI).append($("<p>", lValue));
-            }  // if
-            else {
-                var lValue = { text: pElement.value };
-                var lLI = document.createElement("li");
-                $("#node_list").append(lLI);
-                $(lLI).append($("<p>", lName));
-                $(lLI).append($("<p>", lValue));
-            }  // else
-        });
+            $.each(data, function (pIndex, pElement) {
+                table = table
+                + '<tr><td>' + pElement.alarmindex + '</td>'
+                + '<td>' + pElement.alarmvariable + '</td>'
+                + '<td>' + pElement.alarminterval + '</td>'
+                + '<td>' + pElement.alarmintervaloption + '</td>'
+                + '<td>' + pElement.alarmrisingthreshold + '</td>'
+                + '<td>' + pElement.alarmrisingeventindex + '</td>'
+                + '<td>' + pElement.alarmfallingthreshold +'</td>'
+                + '<td>' + pElement.alarmfallingeventindex + '</td>'
+                + '<td>' + pElement.alarmowner + '</td></tr>';
+            });
+            table = table + '</table>';
+            $("#result").append(table);
+        }  // if
+        else if ($('select#commands').val() === 'showrmonevent') {
+            table = '<table border = 1>'
+                + '<tr><td>event index</td>'
+                + '<td>event trap </td>'
+                + '<td>event community</td>'
+                + '<td>event last timesent</td>'
+                + '<td>event description </td>'
+                + '<td>event owner</td></tr>';
+
+            $.each(data, function (pIndex, pElement) {
+                table = table + '<tr><td>' + pElement.eventindex + '</td>'
+                + '<td>' + pElement.eventtrap + '</td>'
+                + '<td>' + pElement.eventcommunity + '</td>'
+                + '<td>' + pElement.eventlasttimesent + '</td>'
+                + '<td>' + pElement.eventdescription + '</td>'
+                + '<td>' + pElement.eventowner + '</td></tr>';
+            });
+            table = table + '</table>';
+            $("#result").append(table);
+        }  // else if
+        else {
+            $.each(data, function (pIndex, pElement) {
+                var lName = { text: pElement.name };
+                if (lName.text == "OID Name") {
+                    var lValue = { text: pElement.value };
+
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lValue));
+                }  // if
+                else if (lName.text == "NETSTAT" || lName.text == "STATUS" || lName.text == "TRANSLATE") {
+                    var lValue = { text: pElement.value };
+
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lValue));
+                }  // if
+                else {
+                    var lValue = { text: pElement.value };
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lName));
+                    $(lLI).append($("<p>", lValue));
+                }  // else
+            });
+        }  // else
     }  // parseResponse
 
     ajaxCallFailed = function (pJQXHR, pTextStatus) {
@@ -40,7 +90,7 @@
     $(document).ready(function () {
         $('#commands').change(function () {
             if ($('select#commands').val() === '' || $('select#commands').val() === 'montiorSNMPStatus'
-                || $('select#commands').val() === 'showRmonAlarm' || $('select#commands').val() === 'showRmonEvent') {
+                || $('select#commands').val() === 'showrmonalarm' || $('select#commands').val() === 'showrmonevent') {
                 $('#optionalParameters').html('');
             }
 
@@ -76,7 +126,7 @@
                     + '</select>';
                 $('#optionalParameters').append(form);
             }
-            
+
             if ($('select#commands').val() === 'deleteview') {
                 $('#optionalParameters').html('');
                 var form =
@@ -144,7 +194,7 @@
                 $('#optionalParameters').html('');
                 form =
                     '<label id="queueRMONSizeLabel">Queue size</label>'
-                    + '<input name = "queuesize" type = "text" id = "queuesize"/>';
+                    + '<input name = "value" type = "text" id = "value"/>';
 
                 $('#optionalParameters').append(form);
             }
