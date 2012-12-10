@@ -247,7 +247,34 @@ $(document).ready(function(){
             });
             table = table + '</table>';
             $("#result").append(table);
-        }  // else if
+        }  
+		 else if ($('select#commands').val() === 'status')  {
+			 $.each(data, function (pIndex, pElement) {
+                var lName = { text: pElement.name };
+                if (lName.text == "OID Name") {
+                    var lValue = { text: pElement.value };
+
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lValue));
+                }  // if
+                else if (lName.text == "STATUS") {
+                    var lValue = { text: pElement.value };
+
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lValue));
+                }  // if
+                else {
+                    var lValue = { text: pElement.value };
+                    var lLI = document.createElement("li");
+                    $("#node_list").append(lLI);
+                    $(lLI).append($("<p>", lName));
+                    $(lLI).append($("<p>", lValue));
+                }  // else
+            });
+		 }
+		// else if
         else {
 		$.each(data, function (pIndex, pElement) {
 			var result  = '<p>' + pElement.name + ':' + pElement.value + '</p>';
