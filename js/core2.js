@@ -178,7 +178,7 @@ $(document).ready(function(){
                 error: ajaxCallFailed
             });  // ajax
 			$('#optionalParameters').html(''); //clear
-			$('select#commands').val('Choose a command');
+			//$('select#commands').val('Choose a command');
             return false;
         });
 	
