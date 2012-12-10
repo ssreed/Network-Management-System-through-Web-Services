@@ -23,6 +23,38 @@
         <!--<div class="header">
             <h1 class="title">MIB Browsr | Alarms & Events</h1>
         </div>-->
+<div id="input">
+	<form id="input_form" >
+		<label id="serverhostlabel">Server Host: </label>
+		<input type = "text" id = "txtServerHost" value = "24.7.122.241"/>
+		<label id="hostlabel">Host</label>
+		<input type="text" name="host" id="host" placeholder="Host IP goes here" value = "" required> 
+		<label id="communitylabel">Community</label>
+		<input type="password" name="community" id="community" placeholder="Community" value = "public">
+         <div id="optionalParameters"></div>
+		<input type="submit" value="Submit" name="submit"/>
+	</form>
+            <label id="commandlabel">Commands</label>
+                <select name="commands" id = "commands">
+                    <option value="">Choose a command</option>
+                    <option value="createsec2group">create group</option>
+                    <option value="deletesec2group">delete group</option>
+                    <option value="createview">create view</option>
+                    <option value="deleteview">delete view</option>
+                    <option value="createaccess">create access control</option>
+                    <option value="deleteaccess">delete access control</option>
+					<option value="set">establish the contact, location, name</option>
+					<option value="montiorsnmpstatus">monitor SNMP status</option>
+					<option value="enablesnmpagent">enable the snmp agent</option>
+					<option value="enablermon">enable RMON</option>
+                    <option value="showrmonalarm">show RMON alarm</option>
+                    <option value="showrmonevent">show RMON event</option>
+					<option value="setrmonqueue">set RMON queue</option>
+					<option value="setrmonalarm">set RMON alarm</option>
+					<option value="setrmonevent">set RMON event</option>
+                </select>
+</div>
+<!--
         <div id="input">
              <form id="input_form">
                 <label id="serverHostlabel">Server Host</label>
@@ -46,11 +78,12 @@
 					<option value="setRmonAlarm">set RMON alarm</option>
 					<option value="setRmonEvent">set RMON event</option>
                 </select>
-                <!--<input type="submit" value="Submitfd" name="submit" />-->
+                
                 <button type="button" id="send_button" class="btn btn-inverse" data-toggle="button">Submit</button>  
                 <div id="optionalParameters"></div>
             </form>
         </div>
+		-->
         <div id="result"></div>
         <div class="alarmData"></div>
         <div class="info"></div>
