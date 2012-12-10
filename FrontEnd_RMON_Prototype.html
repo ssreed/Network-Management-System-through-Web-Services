@@ -95,7 +95,7 @@
 
     $(document).ready(function () {
         $('#commands').change(function () {
-            if ($('select#commands').val() === '' || $('select#commands').val() === 'montiorSNMPStatus'
+            if ($('select#commands').val() === '' || $('select#commands').val() === 'status'
                 || $('select#commands').val() === 'showrmonalarm' || $('select#commands').val() === 'showrmonevent') {
                 $('#optionalParameters').html('');
             }
@@ -296,7 +296,7 @@
                     <option value="createaccess">create access control</option>
                     <option value="deleteaccess">delete access control</option>
 					<option value="set">establish the contact, location, name</option>
-					<option value="montiorsnmpstatus">monitor SNMP status</option>
+					<option value="status">monitor SNMP status</option>
 					<option value="enablesnmpagent">enable the snmp agent</option>
 					<option value="enablermon">enable RMON</option>
                     <option value="showrmonalarm">show RMON alarm</option>
