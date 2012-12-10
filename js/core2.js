@@ -164,6 +164,9 @@ $(document).ready(function(){
             success: parseResponse,
             error: ajaxCallFailed
         });  // ajax
+      
+      $('#optionalParameters').html(''); //clear
+      
       return false;
     });
     
