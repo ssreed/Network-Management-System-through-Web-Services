@@ -4,7 +4,7 @@ body {
     background: #333 url('../img/noisy_net.png') repeat;
     width: 100%;
     margin: 0;
-    padding: 0;
+    padding-top: 10px;
     position: relative;
 }
 
@@ -67,4 +67,12 @@ h1 {
     color: #000; 
     border: 1px 
     solid #94a0b4;
+}
+
+#send_button {
+    vertical-align: top;
+}
+
+#optionalParameters {
+    padding-top: 40px;
 }

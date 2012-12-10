@@ -1,18 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>MIB-Browser | Alarms</title>
+    <title>MIB-Browser | Alarms & Events</title>
+    <link rel="stylesheet" href="css/bootstrap.css" type="text/css" media="screen">
     <link rel="stylesheet" href="css/style.css" type="text/css" media="screen">
     <link href='http://fonts.googleapis.com/css?family=Fenix' rel='stylesheet' type='text/css'>
+    <script type='text/javascript' src="js/bootstrap.js"></script>
     <script type='text/javascript' src='http://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js'></script>
     <script type='text/javascript' src="js/core2.js"></script>
-    <script type="text/javascript" src="http://d3js.org/d3.v2.js"></script>
+
 </head>
 <body> 
+    <ul class="nav nav-tabs">
+        <li>
+            <a href="index.html">Home</a>
+        </li>
+        <li class="active">
+            <a href="alarms.html">Alarms & Events</a>
+        </li>
+    </ul>
     <div class="page">
-        <div class="header">
-            <h1 class="title">MIB Browsr | Alarms</h1>
-        </div>
+        <!--<div class="header">
+            <h1 class="title">MIB Browsr | Alarms & Events</h1>
+        </div>-->
         <div id="input">
              <form id="input_form">
                 <label id="serverHostlabel">Server Host</label>
@@ -37,7 +47,7 @@
 					<option value="setRmonEvent">set RMON event</option>
                 </select>
                 <!--<input type="submit" value="Submitfd" name="submit" />-->
-                <button id = "send_button">Submit</button>  
+                <button type="button" id="send_button" class="btn btn-inverse" data-toggle="button">Submit</button>  
                 <div id="optionalParameters"></div>
             </form>
         </div>

@@ -117,7 +117,7 @@ public class CLISNMPOperations
 	{	
 		SNMPCommandObject lObject = new SNMPCommandObject();
 		
-		lObject.setCommand("stopSNMPDView");
+		lObject.setCommand("stopSNMPD");
 		lObject.setCommunity(pPassword);
 		
 		return sendUDPSNMPCommand(lObject, pAddress);
@@ -127,23 +127,24 @@ public class CLISNMPOperations
 	{	
 		SNMPCommandObject lObject = new SNMPCommandObject();
 		
-		lObject.setCommand("startSNMPDView");
+		lObject.setCommand("startSNMPD");
 		lObject.setCommunity(pPassword);
-
+		
 		return sendUDPSNMPCommand(lObject, pAddress);
 	}  // void stopSNMPD
 	
 	public static String sendUDPSNMPCommand(SNMPCommandObject pObject, String pAddress)
 	{
 		String lResultStatus;
-    	
+		DatagramSocket mSocket = null;
+		
         try
         {
         	// Create a communication
         	InetAddress lHostAddress = 
         			InetAddress.getByName(pAddress);
         	
-        	DatagramSocket mSocket = new DatagramSocket();
+        	mSocket = new DatagramSocket();
         	
         	ByteArrayOutputStream lOutputStream = new ByteArrayOutputStream();
         	
@@ -160,11 +161,12 @@ public class CLISNMPOperations
             
             byte[] lBuffer = new byte[10240];
             lPacket = new DatagramPacket(lBuffer, lBuffer.length);
+            mSocket.setSoTimeout(60000);
             mSocket.receive(lPacket);
             
             lResultStatus = new String(lPacket.getData(), 0, lPacket.getLength());
             
-            mSocket.close();
+            
         }  // try
         catch(Exception pException)
         {
@@ -172,6 +174,11 @@ public class CLISNMPOperations
             lStatus.setMessage("ERROR", pException.toString());
             lResultStatus = lStatus.toString();
         }  // catch
+        
+        if(mSocket != null)
+        {
+        	mSocket.close();
+        }  // if
         
         return lResultStatus;
 	}  // String
