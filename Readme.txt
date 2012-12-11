@@ -1,16 +1,20 @@
-Word Description
+=====================================================================================
+Folder Description
+=====================================================================================
 Source Code folder = The folder that contains all source codes
-sudo = The command must be executed with root privileges
 
-Technical Modification
+=====================================================================================
+System Perquisite
+=====================================================================================
 All platforms are assumed to have no firewall blockings
 
-Application Server Setup (Settings for Windows Envrionment)
-
+=====================================================================================
+Application Server Setup (Settings for Windows Environment)
+=====================================================================================
 Step 1
 Download and install Java JDK SE u7
 http://www.oracle.com/technetwork/java/javase/downloads/index.html
-Download and install glassfish from Oracle offical website
+Download and install glassfish from Oracle official website
 http://www.oracle.com/technetwork/java/javaee/downloads/java-ee-sdk-6u3-jdk-7u1-downloads-523391.html
 
 Step 2
@@ -18,11 +22,11 @@ Download and install Eclipse with JAVA EE Development
 http://www.eclipse.org/downloads/packages/eclipse-ide-java-ee-developers/junosr1
 
 Step 4
-Copy and paste glassfish from domain folder int the souce code to the glassfish install folder/domains
+Copy and paste glassfish from domain folder in the source code to the glassfish install folder/domains
 
 Step 3
-Open Eclipse and install Glassfish Server Componet
-Perspective -> JAVA EE -> Server -> Mouse Left Click -> Add New Server -> add ... (Left side of server runtime environment) -> Serach for Oracle Glassfish 3.1.2 -> Install
+Open Eclipse and install Glassfish Server Component
+Perspective -> JAVA EE -> Server -> Mouse Left Click -> Add New Server -> add ... (Left side of server runtime environment) -> Search for Oracle Glassfish 3.1.2 -> Install
 
 Step 5
 Perspective -> JAVA EE -> Server -> Mouse Left Click -> Add New Server -> add -> specificy the Glassfish installation folder path and the glassfishdomain folder path
@@ -36,11 +40,13 @@ Import the project from backend folder into Eclipse
 
 Step 9
 Run as -> on Server -> Server that is created by above instructions
+Glassfish Server
+Username: admin
+Password: glafihpaword
 
-Step 10
-Run
-
-Network Elment Setup (Settings for Ubuntu Linux 12.10 32bits)
+=====================================================================================
+Network Element Setup (Settings for Ubuntu Linux 12.10 32bits)
+=====================================================================================
 Step 1
 Install necessary components (Thanks to Josh Lipps's documents)
 sudo apt-get update && sudo apt-get install snmp snmpd snmp-mibs-downloader
@@ -69,15 +75,17 @@ Step 8
 Start the SNMP Adapter program in the souce folder -> snmpadapter
 sudo java -jar snmpadapter.jar
 
-Frontend(Platform Independent)
+=====================================================================================
+Frontend (Platform Independent)
+=====================================================================================
 Step 1
-Froce the browser to accept the invalid certificate
+Force the browser to accept the invalid certificate
 Open browser and type in the address of server in the format
 https://application_server_address:8181 
 where the application_server_address is the address of application server
 
 Step 2
-The user now will be able to use the fronend
+The user now will be able to use the frontend through index.html
 The read only community string
 public
 The read/write community string
@@ -88,4 +96,7 @@ The community that is associate with security name
 Security name is cs158bsec
 Community string is cs158bwrite_access_test
 
+=====================================================================================
 The end of documentation
+=====================================================================================
+Thank you for viewing
