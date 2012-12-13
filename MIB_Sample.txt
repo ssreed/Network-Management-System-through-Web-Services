@@ -1,6 +1,0 @@
-// First Format
-[{"name": "iso(1)", "parent":"", "oid": "1"},
-{"name": "org(3)", "parent":"iso", "oid": "1.3"},{"name": "dod(6)", "parent":"org", "oid": "1.3.6"}]
-// Second Format
-[{"name": "iso(1)", "oid":"1", "child":{"name": "org(3)", "oid": "1.3", child:{{"name": "dod(6)", "oid": "1.3.6", "child":""}}}}]
-
